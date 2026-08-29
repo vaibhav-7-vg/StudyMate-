@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#2563eb">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>StudyMate</title>
 
 <style>
@@ -18,34 +16,59 @@
 body{
     background:#f4f7fb;
     color:#172033;
-    padding-bottom:85px;
-}
-
-button{
-    border:none;
-    cursor:pointer;
 }
 
 header{
     background:#2563eb;
     color:white;
-    padding:23px 18px;
-    border-radius:0 0 26px 26px;
+    padding:18px;
+    text-align:center;
+    position:sticky;
+    top:0;
+    z-index:10;
 }
 
 header h1{
-    font-size:28px;
+    font-size:25px;
 }
 
 header p{
     margin-top:5px;
+    font-size:13px;
     opacity:.9;
 }
 
-.container{
-    max-width:750px;
+nav{
+    display:flex;
+    overflow-x:auto;
+    gap:8px;
+    padding:10px;
+    background:white;
+    border-bottom:1px solid #ddd;
+    position:sticky;
+    top:70px;
+    z-index:9;
+}
+
+nav button{
+    border:0;
+    padding:10px 15px;
+    border-radius:20px;
+    background:#eef2ff;
+    color:#1e3a8a;
+    white-space:nowrap;
+    font-weight:bold;
+}
+
+nav button.active{
+    background:#2563eb;
+    color:white;
+}
+
+main{
+    max-width:1000px;
     margin:auto;
-    padding:18px;
+    padding:15px;
 }
 
 .page{
@@ -56,6 +79,22 @@ header p{
     display:block;
 }
 
+.card{
+    background:white;
+    border-radius:14px;
+    padding:15px;
+    margin-bottom:14px;
+    box-shadow:0 2px 8px rgba(0,0,0,.07);
+}
+
+.card h2{
+    margin-bottom:12px;
+}
+
+.card h3{
+    margin-bottom:7px;
+}
+
 .stats{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -64,81 +103,102 @@ header p{
 
 .stat{
     background:white;
-    padding:17px;
-    border-radius:16px;
-    box-shadow:0 3px 12px rgba(0,0,0,.06);
+    padding:18px;
+    border-radius:14px;
+    text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.07);
 }
 
-.stat h2{
+.stat strong{
+    display:block;
+    font-size:26px;
     color:#2563eb;
-    font-size:25px;
 }
 
-.stat p{
-    color:#666;
+.stat span{
     font-size:13px;
-    margin-top:4px;
+    color:#64748b;
 }
 
-.section{
-    margin-top:25px;
+button{
+    cursor:pointer;
 }
 
-.section-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:13px;
-}
-
-.section-title h2{
-    font-size:20px;
-}
-
-.add-btn{
+.primary{
     background:#2563eb;
     color:white;
-    padding:10px 14px;
-    border-radius:10px;
+    border:0;
+    border-radius:9px;
+    padding:11px 15px;
     font-weight:bold;
 }
 
-.card{
-    background:white;
-    padding:16px;
-    border-radius:16px;
-    margin-bottom:11px;
-    box-shadow:0 3px 12px rgba(0,0,0,.05);
+.secondary{
+    background:#e2e8f0;
+    color:#172033;
+    border:0;
+    border-radius:9px;
+    padding:11px 15px;
+    font-weight:bold;
 }
 
-.card h3{
-    font-size:16px;
-    margin-bottom:7px;
+.danger{
+    background:#ef4444;
+    color:white;
+    border:0;
+    border-radius:9px;
+    padding:10px 14px;
+    font-weight:bold;
 }
 
-.card p{
-    color:#666;
-    font-size:13px;
-    margin:5px 0;
+input,select,textarea{
+    width:100%;
+    padding:11px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    margin-top:6px;
+    margin-bottom:12px;
+    font-size:15px;
+}
+
+label{
+    font-weight:bold;
+    font-size:14px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.empty{
+    text-align:center;
+    padding:25px;
+    color:#64748b;
 }
 
 .badge{
     display:inline-block;
     padding:5px 9px;
-    border-radius:20px;
-    font-size:11px;
+    border-radius:15px;
+    font-size:12px;
     font-weight:bold;
-    margin-top:7px;
-}
-
-.pending{
-    background:#fff0d5;
-    color:#b76b00;
 }
 
 .completed{
     background:#dcfce7;
-    color:#15803d;
+    color:#166534;
+}
+
+.pending{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.overdue{
+    background:#fee2e2;
+    color:#991b1b;
 }
 
 .today{
@@ -146,179 +206,52 @@ header p{
     color:#1d4ed8;
 }
 
-.overdue{
-    background:#fee2e2;
-    color:#dc2626;
+.search{
+    margin-bottom:12px;
 }
 
 .delete-btn{
     float:right;
+    border:0;
     background:#fee2e2;
     color:#dc2626;
     padding:7px 9px;
-    border-radius:8px;
+    border-radius:7px;
 }
 
 .edit-btn{
+    border:0;
     background:#e0e7ff;
     color:#3730a3;
-    padding:8px 10px;
-    border-radius:8px;
+    padding:8px 11px;
+    border-radius:7px;
     margin-top:8px;
 }
 
 .complete-btn{
-    background:#2563eb;
-    color:white;
-    padding:8px 10px;
-    border-radius:8px;
-    margin-top:8px;
-}
-
-.empty{
-    text-align:center;
-    color:#888;
-    background:white;
-    padding:25px;
-    border-radius:16px;
-}
-
-.search{
-    width:100%;
-    padding:13px;
-    border:1px solid #ddd;
-    border-radius:11px;
-    margin-bottom:15px;
-    font-size:14px;
-    outline:none;
-}
-
-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    height:70px;
-    background:white;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    box-shadow:0 -3px 15px rgba(0,0,0,.1);
-    z-index:10;
-}
-
-nav button{
-    background:none;
-    color:#777;
-    font-size:10px;
-}
-
-nav button span{
-    display:block;
-    font-size:21px;
-    margin-bottom:3px;
-}
-
-nav button.active{
-    color:#2563eb;
-    font-weight:bold;
-}
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    z-index:30;
-    align-items:flex-end;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    background:white;
-    width:100%;
-    max-width:750px;
-    margin:auto;
-    padding:22px;
-    border-radius:23px 23px 0 0;
-    max-height:92vh;
-    overflow:auto;
-}
-
-.modal-box h2{
-    margin-bottom:15px;
-}
-
-label{
-    font-size:13px;
-    font-weight:bold;
-}
-
-input,select,textarea{
-    width:100%;
-    padding:13px;
-    margin:7px 0 13px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    font-size:14px;
-    outline:none;
-}
-
-textarea{
-    min-height:80px;
-    resize:none;
-}
-
-.save-btn{
-    width:100%;
-    background:#2563eb;
-    color:white;
-    padding:14px;
-    border-radius:10px;
-    font-weight:bold;
-    font-size:15px;
-}
-
-.close-btn{
-    width:100%;
-    background:#eee;
-    padding:13px;
-    border-radius:10px;
-    margin-top:8px;
-}
-
-.attendance-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-}
-
-.attendance-actions button{
-    padding:8px 10px;
-    border-radius:8px;
-    margin-left:3px;
-}
-
-.present{
+    border:0;
     background:#dcfce7;
-    color:#15803d;
+    color:#166534;
+    padding:8px 11px;
+    border-radius:7px;
+    margin-top:8px;
 }
 
-.absent{
-    background:#fee2e2;
-    color:#dc2626;
+.alert{
+    background:#fff7ed;
+    border-left:4px solid #f97316;
+    padding:12px;
+    margin-bottom:8px;
+    border-radius:8px;
 }
 
 .progress{
+    width:100%;
     height:9px;
-    background:#e5e7eb;
-    border-radius:20px;
+    background:#e2e8f0;
+    border-radius:10px;
     overflow:hidden;
-    margin-top:10px;
+    margin-top:8px;
 }
 
 .progress-bar{
@@ -326,110 +259,13 @@ textarea{
     background:#2563eb;
 }
 
-.calendar{
-    background:white;
-    padding:15px;
-    border-radius:17px;
-    box-shadow:0 3px 12px rgba(0,0,0,.05);
-}
+@media(max-width:600px){
+    .form-grid{
+        grid-template-columns:1fr;
+    }
 
-.calendar-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-}
-
-.calendar-header button{
-    background:#e5edff;
-    color:#2563eb;
-    padding:8px 12px;
-    border-radius:9px;
-}
-
-.calendar-grid{
-    display:grid;
-    grid-template-columns:repeat(7,1fr);
-    gap:5px;
-    text-align:center;
-}
-
-.day-name{
-    font-size:11px;
-    color:#777;
-    padding:7px 0;
-    font-weight:bold;
-}
-
-.day{
-    min-height:42px;
-    padding:8px 2px;
-    border-radius:9px;
-    font-size:13px;
-    position:relative;
-}
-
-.day.has-event{
-    background:#dbeafe;
-    color:#1d4ed8;
-    font-weight:bold;
-}
-
-.day.selected{
-    outline:2px solid #2563eb;
-}
-
-.dot{
-    width:5px;
-    height:5px;
-    background:#2563eb;
-    border-radius:50%;
-    margin:3px auto 0;
-}
-
-.subject-card{
-    margin-bottom:12px;
-}
-
-.settings-card{
-    background:white;
-    padding:17px;
-    border-radius:16px;
-    margin-bottom:12px;
-}
-
-.settings-card button{
-    width:100%;
-    padding:12px;
-    margin-top:8px;
-    border-radius:10px;
-    background:#eaf0ff;
-    color:#2563eb;
-    font-weight:bold;
-}
-
-.danger{
-    background:#fee2e2 !important;
-    color:#dc2626 !important;
-}
-
-.alert{
-    background:#fff7ed;
-    border-left:4px solid #f97316;
-    padding:13px;
-    border-radius:10px;
-    margin-bottom:10px;
-    font-size:13px;
-}
-
-.small{
-    font-size:12px;
-    color:#777;
-}
-
-@media(min-width:600px){
     .stats{
-        grid-template-columns:repeat(4,1fr);
+        grid-template-columns:1fr 1fr;
     }
 }
 </style>
@@ -439,340 +275,484 @@ textarea{
 
 <header>
     <h1>📚 StudyMate</h1>
-    <p>Never forget your college work again.</p>
+    <p>Your personal college study assistant</p>
 </header>
 
-<div class="container">
+<nav>
+    <button class="nav-btn active" onclick="showPage('home',this)">🏠 Home</button>
+    <button class="nav-btn" onclick="showPage('assignments',this)">📝 Assignments</button>
+    <button class="nav-btn" onclick="showPage('homework',this)">📚 Homework</button>
+    <button class="nav-btn" onclick="showPage('attendance',this)">🎓 Attendance</button>
+    <button class="nav-btn" onclick="showPage('calendar',this)">📅 Calendar</button>
+    <button class="nav-btn" onclick="showPage('settings',this)">⚙️ Settings</button>
+</nav>
 
-<!-- HOME -->
-<div id="home" class="page active">
+<main>
+
+<section id="home" class="page active">
+
+    <div class="card">
+        <h2>👋 Welcome to StudyMate</h2>
+        <p id="homeDate"></p>
+    </div>
 
     <div class="stats">
 
         <div class="stat">
-            <h2 id="assignmentCount">0</h2>
-            <p>Assignments</p>
+            <strong id="assignmentCount">0</strong>
+            <span>Assignments</span>
         </div>
 
         <div class="stat">
-            <h2 id="homeworkCount">0</h2>
-            <p>Homework</p>
+            <strong id="homeworkCount">0</strong>
+            <span>Homework</span>
         </div>
 
         <div class="stat">
-            <h2 id="pendingCount">0</h2>
-            <p>Pending</p>
+            <strong id="pendingCount">0</strong>
+            <span>Pending Work</span>
         </div>
 
         <div class="stat">
-            <h2 id="attendancePercent">0%</h2>
-            <p>Attendance</p>
+            <strong id="attendancePercent">0%</strong>
+            <span>Attendance</span>
         </div>
 
     </div>
 
-    <div class="section">
-
-        <div class="section-title">
-            <h2>🔔 Alerts</h2>
-        </div>
-
-        <div id="alerts"></div>
-
-    </div>
-
-    <div class="section">
-
-        <div class="section-title">
-            <h2>📅 Today's Lectures</h2>
-            <button class="add-btn"
-                    onclick="openModal('attendance')">
-                + Add
-            </button>
-        </div>
-
+    <div class="card" style="margin-top:14px">
+        <h2>📅 Today's Lectures</h2>
         <div id="todayLectures"></div>
-
     </div>
 
-    <div class="section">
-
-        <div class="section-title">
-            <h2>⚠️ Upcoming Work</h2>
-        </div>
-
+    <div class="card">
+        <h2>⏰ Upcoming Work</h2>
         <div id="upcoming"></div>
-
     </div>
 
-</div>
+    <div class="card">
+        <h2>🔔 Alerts</h2>
+        <div id="alerts"></div>
+    </div>
+
+</section>
 
 
-<!-- ASSIGNMENTS -->
-<div id="assignments" class="page">
+<section id="assignments" class="page">
 
-    <div class="section-title">
+    <div class="card">
         <h2>📝 Assignments</h2>
 
-        <button class="add-btn"
-                onclick="openModal('assignment')">
-            + Add
+        <input
+            id="assignmentSearch"
+            class="search"
+            placeholder="Search assignments..."
+            oninput="renderAssignments()"
+        >
+
+        <button class="primary"
+                onclick="openAssignmentForm()">
+            ➕ Add Assignment
         </button>
     </div>
 
-    <input
-        class="search"
-        id="assignmentSearch"
-        placeholder="🔍 Search assignments..."
-        oninput="renderAssignments()">
+    <div id="assignmentForm" class="card" style="display:none">
+
+        <h2>Add Assignment</h2>
+
+        <label>Assignment Name</label>
+        <input id="assignmentName">
+
+        <label>Subject</label>
+        <input id="assignmentSubject">
+
+        <label>Due Date</label>
+        <input type="date" id="assignmentDueDate">
+
+        <label>Description</label>
+        <textarea id="assignmentDescription"></textarea>
+
+        <button class="primary"
+                onclick="saveAssignment()">
+            Save Assignment
+        </button>
+
+        <button class="secondary"
+                onclick="closeForms()">
+            Cancel
+        </button>
+
+    </div>
 
     <div id="assignmentList"></div>
 
-</div>
+</section>
 
 
-<!-- HOMEWORK -->
-<div id="homework" class="page">
+<section id="homework" class="page">
 
-    <div class="section-title">
+    <div class="card">
         <h2>📚 Homework</h2>
 
-        <button class="add-btn"
-                onclick="openModal('homework')">
-            + Add
+        <input
+            id="homeworkSearch"
+            class="search"
+            placeholder="Search homework..."
+            oninput="renderHomework()"
+        >
+
+        <button class="primary"
+                onclick="openHomeworkForm()">
+            ➕ Add Homework
         </button>
     </div>
 
-    <input
-        class="search"
-        id="homeworkSearch"
-        placeholder="🔍 Search homework..."
-        oninput="renderHomework()">
+    <div id="homeworkForm" class="card" style="display:none">
+
+        <h2>Add Homework</h2>
+
+        <label>Homework</label>
+        <input id="homeworkName">
+
+        <label>Subject</label>
+        <input id="homeworkSubject">
+
+        <label>Due Date</label>
+        <input type="date" id="homeworkDueDate">
+
+        <button class="primary"
+                onclick="saveHomework()">
+            Save Homework
+        </button>
+
+        <button class="secondary"
+                onclick="closeForms()">
+            Cancel
+        </button>
+
+    </div>
 
     <div id="homeworkList"></div>
 
-</div>
+</section>
 
 
-<!-- ATTENDANCE -->
-<div id="attendance" class="page">
+<section id="attendance" class="page">
 
-    <div class="section-title">
+    <div class="card">
         <h2>🎓 Attendance</h2>
-
-        <button class="add-btn"
-                onclick="openModal('attendance')">
-            + Add
-        </button>
+        <p>Tap ✓ if you attended the lecture or ✕ if you were absent.</p>
     </div>
 
-    <div id="attendanceSummary"></div>
+    <div id="dayTabs" class="card"></div>
 
-    <div id="attendanceList"></div>
+    <div class="card">
+        <h2 id="attendanceDayTitle">
+            Today's Timetable
+        </h2>
 
-</div>
+        <div id="todayTimetable"></div>
+    </div>
+
+    <div class="card">
+        <h2>📊 Attendance Summary</h2>
+        <div id="attendanceSummary"></div>
+    </div>
+
+    <div class="card">
+        <h2>📚 Subject-wise Attendance</h2>
+        <div id="subjectAttendance"></div>
+    </div>
+
+    <div class="card">
+        <h2>📋 Attendance History</h2>
+        <div id="attendanceHistory"></div>
+    </div>
+
+</section>
 
 
-<!-- CALENDAR -->
-<div id="calendarPage" class="page">
+<section id="calendar" class="page">
 
-    <div class="section-title">
+    <div class="card">
+
         <h2>📅 Calendar</h2>
-    </div>
 
-    <div class="calendar">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
 
-        <div class="calendar-header">
-
-            <button onclick="changeMonth(-1)">
+            <button class="secondary"
+                    onclick="changeMonth(-1)">
                 ◀
             </button>
 
-            <b id="calendarTitle"></b>
+            <strong id="calendarTitle"></strong>
 
-            <button onclick="changeMonth(1)">
+            <button class="secondary"
+                    onclick="changeMonth(1)">
                 ▶
             </button>
 
         </div>
 
-        <div class="calendar-grid"
-             id="calendarGrid"></div>
+        <div id="calendarGrid"
+             style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center">
+        </div>
 
     </div>
 
-    <div class="section">
-
-        <h2 style="margin-bottom:12px">
-            Events
-        </h2>
-
+    <div class="card">
+        <h2>Events</h2>
         <div id="calendarEvents"></div>
-
     </div>
 
-</div>
+</section>
 
 
-<!-- SETTINGS -->
-<div id="settings" class="page">
+<section id="settings" class="page">
 
-    <div class="section-title">
-        <h2>⚙️ Settings</h2>
-    </div>
+    <div class="card">
 
-    <div class="settings-card">
+        <h2>⚙️ StudyMate Settings</h2>
 
-        <h3>🔔 Notifications</h3>
+        <button class="primary"
+                onclick="openTimetableEditor()">
+            ✏️ Edit Timetable
+        </button>
 
-        <p class="small">
-            Allow StudyMate to show deadline notifications
-            while the app is open.
-        </p>
-
-        <button onclick="requestNotifications()">
-            Enable Notifications
+        <button class="secondary"
+                onclick="requestNotifications()">
+            🔔 Enable Notifications
         </button>
 
     </div>
 
-    <div class="settings-card">
+    <div id="timetableEditor"
+         class="card"
+         style="display:none">
 
-        <h3>💾 Backup</h3>
+        <h2>✏️ Edit Timetable</h2>
 
-        <p class="small">
-            Save all your StudyMate data to a file.
+        <p style="margin-bottom:12px">
+            You can change subjects, timings and lecture types here.
         </p>
 
-        <button onclick="backupData()">
-            Download Backup
-        </button>
+        <div id="editorContent"></div>
 
     </div>
 
-    <div class="settings-card">
+    <div class="card">
 
-        <h3>♻️ Restore</h3>
+        <h2>💾 Backup & Restore</h2>
 
-        <p class="small">
-            Restore your previous StudyMate data.
-        </p>
+        <button class="primary"
+                onclick="backupData()">
+            ⬇️ Backup Data
+        </button>
+
+        <br><br>
 
         <input
             type="file"
             id="restoreFile"
-            accept=".json">
+            accept=".json"
+        >
 
-        <button onclick="restoreData()">
-            Restore Data
+        <button class="secondary"
+                onclick="restoreData()">
+            ⬆️ Restore Data
         </button>
 
     </div>
 
-    <div class="settings-card">
+    <div class="card">
 
-        <h3>🗑️ Reset</h3>
-
-        <p class="small">
-            Delete all StudyMate data from this device.
-        </p>
+        <h2>⚠️ Reset</h2>
 
         <button class="danger"
                 onclick="resetAll()">
-            Delete Everything
+            Delete All StudyMate Data
         </button>
 
     </div>
 
-</div>
+</section>
 
-</div>
-
-
-<!-- NAVIGATION -->
-<nav>
-
-<button class="active"
-        onclick="showPage('home',this)">
-    <span>🏠</span>
-    Home
-</button>
-
-<button onclick="showPage('assignments',this)">
-    <span>📝</span>
-    Assignments
-</button>
-
-<button onclick="showPage('homework',this)">
-    <span>📚</span>
-    Homework
-</button>
-
-<button onclick="showPage('attendance',this)">
-    <span>🎓</span>
-    Attendance
-</button>
-
-<button onclick="showPage('calendarPage',this)">
-    <span>📅</span>
-    Calendar
-</button>
-
-<button onclick="showPage('settings',this)">
-    <span>⚙️</span>
-    More
-</button>
-
-</nav>
-
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-
-<div class="modal-box">
-
-<h2 id="modalTitle">Add</h2>
-
-<div id="formContent"></div>
-
-<button class="save-btn"
-        onclick="saveData()">
-    Save
-</button>
-
-<button class="close-btn"
-        onclick="closeModal()">
-    Cancel
-</button>
-
-</div>
-
-</div>
-
+</main>
 
 <script>
 
 /* =========================
-   DATA
+   BASIC DATA
 ========================= */
 
 let assignments =
-JSON.parse(localStorage.getItem("studymate_assignments")) || [];
+    JSON.parse(
+        localStorage.getItem(
+            "studymate_assignments"
+        )
+    ) || [];
 
 let homework =
-JSON.parse(localStorage.getItem("studymate_homework")) || [];
+    JSON.parse(
+        localStorage.getItem(
+            "studymate_homework"
+        )
+    ) || [];
 
 let attendance =
-JSON.parse(localStorage.getItem("studymate_attendance")) || [];
+    JSON.parse(
+        localStorage.getItem(
+            "studymate_attendance"
+        )
+    ) || [];
 
-let currentType="";
-let editingId=null;
-
-let calendarDate=new Date();
+let calendarDate = new Date();
 
 
 /* =========================
-   STORAGE
+   DEFAULT TIMETABLE
+========================= */
+
+const defaultTimetable = {
+
+    Monday: [
+        {
+            time:"9:00 AM - 10:00 AM",
+            subject:"MIC",
+            type:"Lecture"
+        },
+        {
+            time:"10:00 AM - 11:00 AM",
+            subject:"CN",
+            type:"Lecture"
+        },
+        {
+            time:"11:15 AM - 1:15 PM",
+            subject:"ML Practical",
+            type:"Practical"
+        },
+        {
+            time:"2:00 PM - 3:00 PM",
+            subject:"VLSI",
+            type:"Lecture"
+        }
+    ],
+
+    Tuesday: [
+        {
+            time:"9:00 AM - 10:00 AM",
+            subject:"FRM",
+            type:"Lecture"
+        },
+        {
+            time:"10:00 AM - 11:00 AM",
+            subject:"CN",
+            type:"Lecture"
+        },
+        {
+            time:"11:15 AM - 1:15 PM",
+            subject:"MIC Practical",
+            type:"Practical"
+        },
+        {
+            time:"2:00 PM - 3:00 PM",
+            subject:"CNW",
+            type:"Lecture"
+        },
+        {
+            time:"3:00 PM - 4:00 PM",
+            subject:"MIC",
+            type:"Lecture"
+        }
+    ],
+
+    Wednesday: [
+        {
+            time:"9:00 AM - 11:00 AM",
+            subject:"CN Practical",
+            type:"Practical"
+        },
+        {
+            time:"11:15 AM - 1:15 PM",
+            subject:"MIC Practical",
+            type:"Practical"
+        },
+        {
+            time:"2:00 PM - 4:00 PM",
+            subject:"CNW Practical",
+            type:"Practical"
+        }
+    ],
+
+    Thursday: [
+        {
+            time:"9:00 AM - 10:00 AM",
+            subject:"FRM",
+            type:"Lecture"
+        },
+        {
+            time:"10:00 AM - 11:00 AM",
+            subject:"MIC",
+            type:"Lecture"
+        },
+        {
+            time:"11:15 AM - 12:15 PM",
+            subject:"VLSI",
+            type:"Lecture"
+        },
+        {
+            time:"12:15 PM - 1:15 PM",
+            subject:"CNW",
+            type:"Lecture"
+        },
+        {
+            time:"2:00 PM - 4:00 PM",
+            subject:"VLSI Practical",
+            type:"Practical"
+        }
+    ],
+
+    Friday: [
+        {
+            time:"9:00 AM - 11:00 AM",
+            subject:"ML Tute",
+            type:"Tutorial"
+        },
+        {
+            time:"11:15 AM - 12:15 PM",
+            subject:"VLSI",
+            type:"Lecture"
+        },
+        {
+            time:"12:15 PM - 1:15 PM",
+            subject:"CNW",
+            type:"Lecture"
+        },
+        {
+            time:"2:00 PM - 3:00 PM",
+            subject:"CN",
+            type:"Lecture"
+        },
+        {
+            time:"3:00 PM - 4:00 PM",
+            subject:"FRM",
+            type:"Lecture"
+        }
+    ]
+
+};
+
+
+let timetable =
+    JSON.parse(
+        localStorage.getItem(
+            "studymate_timetable"
+        )
+    ) || defaultTimetable;
+
+
+/* =========================
+   SAVE
 ========================= */
 
 function saveAll(){
@@ -791,422 +771,44 @@ function saveAll(){
         "studymate_attendance",
         JSON.stringify(attendance)
     );
+
+    localStorage.setItem(
+        "studymate_timetable",
+        JSON.stringify(timetable)
+    );
+
 }
 
 
 /* =========================
-   NAVIGATION
+   PAGE NAVIGATION
 ========================= */
 
 function showPage(page,button){
 
-    document.querySelectorAll(".page")
-    .forEach(p=>p.classList.remove("active"));
+    document
+        .querySelectorAll(".page")
+        .forEach(p =>
+            p.classList.remove("active")
+        );
 
-    document.getElementById(page)
-    .classList.add("active");
-
-    document.querySelectorAll("nav button")
-    .forEach(b=>b.classList.remove("active"));
-
-    button.classList.add("active");
-
-    render();
-
-}
+    document
+        .getElementById(page)
+        .classList.add("active");
 
 
-/* =========================
-   MODAL
-========================= */
+    document
+        .querySelectorAll(".nav-btn")
+        .forEach(b =>
+            b.classList.remove("active")
+        );
 
-function openModal(type,id=null){
 
-    currentType=type;
-    editingId=id;
-
-    document.getElementById("modal")
-    .classList.add("show");
-
-    let title=
-        document.getElementById("modalTitle");
-
-    let form=
-        document.getElementById("formContent");
-
-    if(type==="assignment"){
-
-        title.innerText=
-            id ? "✏️ Edit Assignment"
-               : "📝 Add Assignment";
-
-        let old=id?
-            assignments.find(x=>x.id===id):null;
-
-        form.innerHTML=`
-
-        <label>Subject</label>
-        <input id="subject"
-        value="${old?escapeHTML(old.subject):''}"
-        placeholder="e.g. Communication Engineering">
-
-        <label>Assignment Name</label>
-        <input id="name"
-        value="${old?escapeHTML(old.name):''}"
-        placeholder="e.g. Unit 3 Questions">
-
-        <label>Given Date</label>
-        <input id="givenDate"
-        type="date"
-        value="${old?.givenDate||today()}">
-
-        <label>Submission Date</label>
-        <input id="dueDate"
-        type="date"
-        value="${old?.dueDate||''}">
-
-        <label>Description</label>
-        <textarea id="description"
-        placeholder="Enter assignment details">${old?.description||''}</textarea>
-
-        `;
-
+    if(button){
+        button.classList.add("active");
     }
 
 
-    if(type==="homework"){
-
-        title.innerText=
-            id ? "✏️ Edit Homework"
-               : "📚 Add Homework";
-
-        let old=id?
-            homework.find(x=>x.id===id):null;
-
-        form.innerHTML=`
-
-        <label>Subject</label>
-        <input id="subject"
-        value="${old?escapeHTML(old.subject):''}"
-        placeholder="e.g. Mathematics">
-
-        <label>Homework</label>
-        <textarea id="name"
-        placeholder="What homework did teacher give?">${old?.name||''}</textarea>
-
-        <label>Due Date</label>
-        <input id="dueDate"
-        type="date"
-        value="${old?.dueDate||''}">
-
-        `;
-
-    }
-
-
-    if(type==="attendance"){
-
-        title.innerText=
-            id ? "✏️ Edit Lecture"
-               : "🎓 Add Lecture";
-
-        let old=id?
-            attendance.find(x=>x.id===id):null;
-
-        form.innerHTML=`
-
-        <label>Subject</label>
-        <input id="subject"
-        value="${old?escapeHTML(old.subject):''}"
-        placeholder="e.g. Digital Electronics">
-
-        <label>Lecture Date</label>
-        <input id="lectureDate"
-        type="date"
-        value="${old?.date||today()}">
-
-        <label>Status</label>
-
-        <select id="lectureStatus">
-
-            <option value="present"
-            ${old?.status==="present"?"selected":""}>
-            Present
-            </option>
-
-            <option value="absent"
-            ${old?.status==="absent"?"selected":""}>
-            Absent
-            </option>
-
-        </select>
-
-        `;
-
-    }
-
-}
-
-
-function closeModal(){
-
-    document.getElementById("modal")
-    .classList.remove("show");
-
-    editingId=null;
-
-}
-
-
-/* =========================
-   SAVE
-========================= */
-
-function saveData(){
-
-    let subject=
-        document.getElementById("subject").value.trim();
-
-    if(!subject){
-
-        alert("Please enter subject.");
-        return;
-
-    }
-
-
-    if(currentType==="assignment"){
-
-        let name=
-            document.getElementById("name")
-            .value.trim();
-
-        let dueDate=
-            document.getElementById("dueDate")
-            .value;
-
-        if(!name||!dueDate){
-
-            alert("Please fill assignment name and due date.");
-            return;
-
-        }
-
-        if(editingId){
-
-            let item=
-                assignments.find(x=>x.id===editingId);
-
-            item.subject=subject;
-            item.name=name;
-            item.givenDate=
-                document.getElementById("givenDate").value;
-            item.dueDate=dueDate;
-            item.description=
-                document.getElementById("description").value;
-
-        }else{
-
-            assignments.push({
-
-                id:Date.now(),
-                subject:subject,
-                name:name,
-
-                givenDate:
-                    document.getElementById("givenDate").value,
-
-                dueDate:dueDate,
-
-                description:
-                    document.getElementById("description").value,
-
-                completed:false
-
-            });
-
-        }
-
-    }
-
-
-    if(currentType==="homework"){
-
-        let name=
-            document.getElementById("name")
-            .value.trim();
-
-        let dueDate=
-            document.getElementById("dueDate").value;
-
-        if(!name||!dueDate){
-
-            alert("Please fill homework and due date.");
-            return;
-
-        }
-
-        if(editingId){
-
-            let item=
-                homework.find(x=>x.id===editingId);
-
-            item.subject=subject;
-            item.name=name;
-            item.dueDate=dueDate;
-
-        }else{
-
-            homework.push({
-
-                id:Date.now(),
-                subject:subject,
-                name:name,
-                dueDate:dueDate,
-                completed:false
-
-            });
-
-        }
-
-    }
-
-
-    if(currentType==="attendance"){
-
-        let date=
-            document.getElementById("lectureDate").value;
-
-        let status=
-            document.getElementById("lectureStatus").value;
-
-        if(!date){
-
-            alert("Please select lecture date.");
-            return;
-
-        }
-
-        if(editingId){
-
-            let item=
-                attendance.find(x=>x.id===editingId);
-
-            item.subject=subject;
-            item.date=date;
-            item.status=status;
-
-        }else{
-
-            attendance.push({
-
-                id:Date.now(),
-                subject:subject,
-                date:date,
-                status:status
-
-            });
-
-        }
-
-    }
-
-
-    saveAll();
-    closeModal();
-    render();
-
-}
-
-
-/* =========================
-   DELETE
-========================= */
-
-function deleteAssignment(id){
-
-    if(!confirm("Delete this assignment?"))
-        return;
-
-    assignments=
-        assignments.filter(x=>x.id!==id);
-
-    saveAll();
-    render();
-
-}
-
-
-function deleteHomework(id){
-
-    if(!confirm("Delete this homework?"))
-        return;
-
-    homework=
-        homework.filter(x=>x.id!==id);
-
-    saveAll();
-    render();
-
-}
-
-
-function deleteAttendance(id){
-
-    if(!confirm("Delete this lecture?"))
-        return;
-
-    attendance=
-        attendance.filter(x=>x.id!==id);
-
-    saveAll();
-    render();
-
-}
-
-
-/* =========================
-   COMPLETE
-========================= */
-
-function toggleAssignment(id){
-
-    let item=
-        assignments.find(x=>x.id===id);
-
-    item.completed=!item.completed;
-
-    saveAll();
-    render();
-
-}
-
-
-function toggleHomework(id){
-
-    let item=
-        homework.find(x=>x.id===id);
-
-    item.completed=!item.completed;
-
-    saveAll();
-    render();
-
-}
-
-
-/* =========================
-   ATTENDANCE
-========================= */
-
-function changeAttendance(id,status){
-
-    let item=
-        attendance.find(x=>x.id===id);
-
-    item.status=status;
-
-    saveAll();
     render();
 
 }
@@ -1220,12 +822,15 @@ function today(){
 
     let d = new Date();
 
-    let y = d.getFullYear();
+    let y =
+        d.getFullYear();
 
-    let m = String(d.getMonth()+1)
+    let m =
+        String(d.getMonth()+1)
         .padStart(2,"0");
 
-    let day = String(d.getDate())
+    let day =
+        String(d.getDate())
         .padStart(2,"0");
 
     return `${y}-${m}-${day}`;
@@ -1235,94 +840,244 @@ function today(){
 
 function formatDate(date){
 
-    if(!date) return "No date";
+    if(!date)
+        return "";
 
-    return new Date(date+"T00:00:00")
-    .toLocaleDateString("en-IN",{
-        day:"numeric",
-        month:"short",
-        year:"numeric"
-    });
-
-}
-
-
-function dateDifference(date){
-
-    let d1 =
-        new Date(today()+"T00:00:00");
-
-    let d2 =
-        new Date(date+"T00:00:00");
-
-    return Math.round(
-        (d2-d1)/(1000*60*60*24)
+    return new Date(
+        date + "T00:00:00"
+    ).toLocaleDateString(
+        "en-IN",
+        {
+            day:"numeric",
+            month:"short",
+            year:"numeric"
+        }
     );
 
 }
 
 
-function deadlineClass(date){
+function getDayName(){
 
-    let diff = dateDifference(date);
+    const days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ];
 
-    if(diff < 0) return "overdue";
-
-    if(diff === 0) return "today";
-
-    return "pending";
-
-}
-
-
-function deadlineText(date){
-
-    let diff = dateDifference(date);
-
-    if(diff < 0)
-        return "⚠️ Overdue";
-
-    if(diff === 0)
-        return "🔥 Due Today";
-
-    if(diff === 1)
-        return "⏰ Due Tomorrow";
-
-    return `Due in ${diff} days`;
+    return days[
+        new Date().getDay()
+    ];
 
 }
 
 
 /* =========================
+   ASSIGNMENT FORM
+========================= */
+
+function openAssignmentForm(){
+
+    closeForms();
+
+    document
+        .getElementById("assignmentForm")
+        .style.display = "block";
+
+}
+
+
+function openHomeworkForm(){
+
+    closeForms();
+
+    document
+        .getElementById("homeworkForm")
+        .style.display = "block";
+
+}
+
+
+function closeForms(){
+
+    document
+        .querySelectorAll(
+            "#assignmentForm,#homeworkForm"
+        )
+        .forEach(x =>
+            x.style.display = "none"
+        );
+
+}/* =========================
    ASSIGNMENTS
 ========================= */
+
+function saveAssignment(){
+
+    let name =
+        document.getElementById(
+            "assignmentName"
+        ).value.trim();
+
+    let subject =
+        document.getElementById(
+            "assignmentSubject"
+        ).value.trim();
+
+    let dueDate =
+        document.getElementById(
+            "assignmentDueDate"
+        ).value;
+
+    let description =
+        document.getElementById(
+            "assignmentDescription"
+        ).value.trim();
+
+
+    if(!name || !subject || !dueDate){
+
+        alert(
+            "Please fill Assignment Name, Subject and Due Date."
+        );
+
+        return;
+
+    }
+
+
+    assignments.push({
+
+        id:Date.now(),
+
+        name:name,
+
+        subject:subject,
+
+        dueDate:dueDate,
+
+        description:description,
+
+        completed:false
+
+    });
+
+
+    saveAll();
+
+    closeForms();
+
+    document.getElementById(
+        "assignmentName"
+    ).value = "";
+
+    document.getElementById(
+        "assignmentSubject"
+    ).value = "";
+
+    document.getElementById(
+        "assignmentDueDate"
+    ).value = "";
+
+    document.getElementById(
+        "assignmentDescription"
+    ).value = "";
+
+
+    render();
+
+}
+
+
+function toggleAssignment(id){
+
+    let item =
+        assignments.find(
+            a => a.id === id
+        );
+
+    if(item){
+
+        item.completed =
+            !item.completed;
+
+        saveAll();
+
+        render();
+
+    }
+
+}
+
+
+function deleteAssignment(id){
+
+    if(!confirm(
+        "Delete this assignment?"
+    )) return;
+
+
+    assignments =
+        assignments.filter(
+            a => a.id !== id
+        );
+
+
+    saveAll();
+
+    render();
+
+}
+
 
 function renderAssignments(){
 
     let list =
-        document.getElementById("assignmentList");
+        document.getElementById(
+            "assignmentList"
+        );
+
+
+    if(!list) return;
+
 
     let search =
-        (document.getElementById("assignmentSearch")?.value || "")
-        .toLowerCase();
+        (
+            document.getElementById(
+                "assignmentSearch"
+            )?.value || ""
+        ).toLowerCase();
+
 
     let data =
         assignments
         .filter(a =>
-            a.name.toLowerCase().includes(search) ||
-            a.subject.toLowerCase().includes(search)
+            a.name
+                .toLowerCase()
+                .includes(search)
+            ||
+            a.subject
+                .toLowerCase()
+                .includes(search)
         )
-        .sort((a,b) =>
-            a.dueDate.localeCompare(b.dueDate)
+        .sort(
+            (a,b) =>
+            a.dueDate.localeCompare(
+                b.dueDate
+            )
         );
 
 
     if(data.length === 0){
 
         list.innerHTML =
-        `<div class="empty">
-        No assignments found.
-        </div>`;
+            `<div class="card empty">
+                No assignments found.
+            </div>`;
 
         return;
 
@@ -1334,56 +1089,74 @@ function renderAssignments(){
 
         <div class="card">
 
-        <button class="delete-btn"
-        onclick="deleteAssignment(${a.id})">
-        🗑
-        </button>
+            <button
+                class="delete-btn"
+                onclick="
+                    deleteAssignment(${a.id})
+                "
+            >
+                🗑
+            </button>
 
-        <h3>${escapeHTML(a.name)}</h3>
+            <h3>
+                ${escapeHTML(a.name)}
+            </h3>
 
-        <p>📘 ${escapeHTML(a.subject)}</p>
+            <p>
+                📘 ${escapeHTML(a.subject)}
+            </p>
 
-        <p>📅 Due: ${formatDate(a.dueDate)}</p>
+            <p>
+                📅 Due:
+                ${formatDate(a.dueDate)}
+            </p>
 
-        ${a.givenDate ?
-        `<p>🗓️ Given: ${formatDate(a.givenDate)}</p>`
-        :""}
+            ${
+                a.description
+                ?
+                `<p>
+                    📌 ${escapeHTML(
+                        a.description
+                    )}
+                </p>`
+                :
+                ""
+            }
 
-        ${a.description ?
-        `<p>📌 ${escapeHTML(a.description)}</p>`
-        :""}
+            <br>
 
-        <span class="badge ${
-            a.completed
-            ? "completed"
-            : deadlineClass(a.dueDate)
-        }">
+            <span class="badge ${
+                a.completed
+                ? "completed"
+                : deadlineClass(
+                    a.dueDate
+                )
+            }">
 
-        ${
-            a.completed
-            ? "✓ Completed"
-            : deadlineText(a.dueDate)
-        }
+                ${
+                    a.completed
+                    ? "✓ Completed"
+                    : deadlineText(
+                        a.dueDate
+                    )
+                }
 
-        </span>
+            </span>
 
-        <br>
+            <br>
 
-        <button class="edit-btn"
-        onclick="openModal('assignment',${a.id})">
-        ✏️ Edit
-        </button>
-
-        <button class="complete-btn"
-        onclick="toggleAssignment(${a.id})">
-
-        ${
-            a.completed
-            ? "↩ Mark Pending"
-            : "✓ Complete"
-        }
-
-        </button>
+            <button
+                class="complete-btn"
+                onclick="
+                    toggleAssignment(${a.id})
+                "
+            >
+                ${
+                    a.completed
+                    ? "↩ Mark Pending"
+                    : "✓ Complete"
+                }
+            </button>
 
         </div>
 
@@ -1396,32 +1169,159 @@ function renderAssignments(){
    HOMEWORK
 ========================= */
 
+function saveHomework(){
+
+    let name =
+        document.getElementById(
+            "homeworkName"
+        ).value.trim();
+
+    let subject =
+        document.getElementById(
+            "homeworkSubject"
+        ).value.trim();
+
+    let dueDate =
+        document.getElementById(
+            "homeworkDueDate"
+        ).value;
+
+
+    if(!name || !subject || !dueDate){
+
+        alert(
+            "Please fill Homework, Subject and Due Date."
+        );
+
+        return;
+
+    }
+
+
+    homework.push({
+
+        id:Date.now(),
+
+        name:name,
+
+        subject:subject,
+
+        dueDate:dueDate,
+
+        completed:false
+
+    });
+
+
+    saveAll();
+
+    closeForms();
+
+
+    document.getElementById(
+        "homeworkName"
+    ).value = "";
+
+    document.getElementById(
+        "homeworkSubject"
+    ).value = "";
+
+    document.getElementById(
+        "homeworkDueDate"
+    ).value = "";
+
+
+    render();
+
+}
+
+
+function toggleHomework(id){
+
+    let item =
+        homework.find(
+            h => h.id === id
+        );
+
+
+    if(item){
+
+        item.completed =
+            !item.completed;
+
+        saveAll();
+
+        render();
+
+    }
+
+}
+
+
+function deleteHomework(id){
+
+    if(!confirm(
+        "Delete this homework?"
+    )) return;
+
+
+    homework =
+        homework.filter(
+            h => h.id !== id
+        );
+
+
+    saveAll();
+
+    render();
+
+}
+
+
 function renderHomework(){
 
     let list =
-        document.getElementById("homeworkList");
+        document.getElementById(
+            "homeworkList"
+        );
+
+
+    if(!list) return;
+
 
     let search =
-        (document.getElementById("homeworkSearch")?.value || "")
-        .toLowerCase();
+        (
+            document.getElementById(
+                "homeworkSearch"
+            )?.value || ""
+        ).toLowerCase();
+
 
     let data =
         homework
         .filter(h =>
-            h.name.toLowerCase().includes(search) ||
-            h.subject.toLowerCase().includes(search)
+            h.name
+                .toLowerCase()
+                .includes(search)
+            ||
+            h.subject
+                .toLowerCase()
+                .includes(search)
         )
-        .sort((a,b) =>
-            a.dueDate.localeCompare(b.dueDate)
+        .sort(
+            (a,b) =>
+            a.dueDate.localeCompare(
+                b.dueDate
+            )
         );
 
 
     if(data.length === 0){
 
         list.innerHTML =
-        `<div class="empty">
-        No homework found.
-        </div>`;
+            `<div class="card empty">
+                No homework found.
+            </div>`;
 
         return;
 
@@ -1433,52 +1333,634 @@ function renderHomework(){
 
         <div class="card">
 
-        <button class="delete-btn"
-        onclick="deleteHomework(${h.id})">
-        🗑
-        </button>
+            <button
+                class="delete-btn"
+                onclick="
+                    deleteHomework(${h.id})
+                "
+            >
+                🗑
+            </button>
 
-        <h3>${escapeHTML(h.name)}</h3>
+            <h3>
+                ${escapeHTML(h.name)}
+            </h3>
 
-        <p>📘 ${escapeHTML(h.subject)}</p>
+            <p>
+                📘 ${escapeHTML(h.subject)}
+            </p>
 
-        <p>📅 Due: ${formatDate(h.dueDate)}</p>
+            <p>
+                📅 Due:
+                ${formatDate(h.dueDate)}
+            </p>
 
-        <span class="badge ${
-            h.completed
-            ? "completed"
-            : deadlineClass(h.dueDate)
-        }">
+            <br>
 
-        ${
-            h.completed
-            ? "✓ Completed"
-            : deadlineText(h.dueDate)
-        }
+            <span class="badge ${
+                h.completed
+                ? "completed"
+                : deadlineClass(
+                    h.dueDate
+                )
+            }">
 
-        </span>
+                ${
+                    h.completed
+                    ? "✓ Completed"
+                    : deadlineText(
+                        h.dueDate
+                    )
+                }
 
-        <br>
+            </span>
 
-        <button class="edit-btn"
-        onclick="openModal('homework',${h.id})">
-        ✏️ Edit
-        </button>
+            <br>
 
-        <button class="complete-btn"
-        onclick="toggleHomework(${h.id})">
-
-        ${
-            h.completed
-            ? "↩ Mark Pending"
-            : "✓ Complete"
-        }
-
-        </button>
+            <button
+                class="complete-btn"
+                onclick="
+                    toggleHomework(${h.id})
+                "
+            >
+                ${
+                    h.completed
+                    ? "↩ Mark Pending"
+                    : "✓ Complete"
+                }
+            </button>
 
         </div>
 
         `).join("");
+
+}
+
+
+/* =========================
+   DEADLINE HELPERS
+========================= */
+
+function dateDifference(date){
+
+    let d1 =
+        new Date(
+            today()+"T00:00:00"
+        );
+
+    let d2 =
+        new Date(
+            date+"T00:00:00"
+        );
+
+
+    return Math.round(
+        (d2-d1) /
+        (1000*60*60*24)
+    );
+
+}
+
+
+function deadlineClass(date){
+
+    let diff =
+        dateDifference(date);
+
+
+    if(diff < 0)
+        return "overdue";
+
+
+    if(diff === 0)
+        return "today";
+
+
+    return "pending";
+
+}
+
+
+function deadlineText(date){
+
+    let diff =
+        dateDifference(date);
+
+
+    if(diff < 0)
+        return "⚠️ Overdue";
+
+
+    if(diff === 0)
+        return "🔥 Due Today";
+
+
+    if(diff === 1)
+        return "⏰ Due Tomorrow";
+
+
+    return `Due in ${diff} days`;
+
+}
+
+
+/* =========================
+   ATTENDANCE DAY TABS
+========================= */
+
+function renderDayTabs(){
+
+    let box =
+        document.getElementById(
+            "dayTabs"
+        );
+
+
+    if(!box) return;
+
+
+    let days = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+    ];
+
+
+    let todayName =
+        getDayName();
+
+
+    let selected =
+        window.selectedAttendanceDay ||
+        (
+            days.includes(todayName)
+            ? todayName
+            : "Monday"
+        );
+
+
+    box.innerHTML = `
+
+        <div style="
+            display:flex;
+            gap:7px;
+            overflow-x:auto;
+        ">
+
+        ${
+            days.map(day => `
+
+                <button
+                    onclick="
+                        selectAttendanceDay(
+                            '${day}'
+                        )
+                    "
+                    style="
+                        border:0;
+                        padding:10px 15px;
+                        border-radius:20px;
+                        white-space:nowrap;
+                        font-weight:bold;
+                        background:${
+                            selected === day
+                            ? "#2563eb"
+                            : "#e2e8f0"
+                        };
+                        color:${
+                            selected === day
+                            ? "white"
+                            : "#172033"
+                        };
+                    "
+                >
+                    ${day.substring(0,3)}
+                </button>
+
+            `).join("")
+        }
+
+        </div>
+
+    `;
+
+}
+
+
+function selectAttendanceDay(day){
+
+    window.selectedAttendanceDay =
+        day;
+
+    renderDayTabs();
+
+    renderAttendanceTable();
+
+}
+
+
+/* =========================
+   ATTENDANCE TABLE
+========================= */
+
+function renderAttendanceTable(){
+
+    let box =
+        document.getElementById(
+            "todayTimetable"
+        );
+
+
+    if(!box) return;
+
+
+    let days = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+    ];
+
+
+    let day =
+        window.selectedAttendanceDay;
+
+
+    if(!day){
+
+        let current =
+            getDayName();
+
+        day =
+            days.includes(current)
+            ? current
+            : "Monday";
+
+        window.selectedAttendanceDay =
+            day;
+
+    }
+
+
+    let list =
+        timetable[day] || [];
+
+
+    document.getElementById(
+        "attendanceDayTitle"
+    ).innerText =
+        `${day} Attendance`;
+
+
+    if(list.length === 0){
+
+        box.innerHTML =
+            `<div class="empty">
+                No lectures scheduled.
+            </div>`;
+
+        return;
+
+    }
+
+
+    let date =
+        getDateForDay(day);
+
+
+    let html = `
+
+        <div style="
+            overflow-x:auto;
+        ">
+
+        <table style="
+            width:100%;
+            border-collapse:collapse;
+            min-width:600px;
+        ">
+
+            <thead>
+
+                <tr style="
+                    background:#eff6ff;
+                ">
+
+                    <th style="
+                        padding:12px;
+                        text-align:left;
+                        border-bottom:1px solid #ddd;
+                    ">
+                        Time
+                    </th>
+
+                    <th style="
+                        padding:12px;
+                        text-align:left;
+                        border-bottom:1px solid #ddd;
+                    ">
+                        Subject
+                    </th>
+
+                    <th style="
+                        padding:12px;
+                        text-align:center;
+                        border-bottom:1px solid #ddd;
+                    ">
+                        Type
+                    </th>
+
+                    <th style="
+                        padding:12px;
+                        text-align:center;
+                        border-bottom:1px solid #ddd;
+                    ">
+                        Attendance
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    list.forEach(
+        (lecture,index) => {
+
+            let record =
+                attendance.find(a =>
+                    a.date === date &&
+                    a.day === day &&
+                    a.lectureIndex === index
+                );
+
+
+            let status =
+                record
+                ? record.status
+                : "pending";
+
+
+            html += `
+
+                <tr>
+
+                    <td style="
+                        padding:12px;
+                        border-bottom:1px solid #eee;
+                    ">
+                        ${lecture.time}
+                    </td>
+
+                    <td style="
+                        padding:12px;
+                        border-bottom:1px solid #eee;
+                        font-weight:bold;
+                    ">
+                        ${escapeHTML(
+                            lecture.subject
+                        )}
+                    </td>
+
+                    <td style="
+                        padding:12px;
+                        border-bottom:1px solid #eee;
+                        text-align:center;
+                    ">
+                        ${lecture.type}
+                    </td>
+
+                    <td style="
+                        padding:12px;
+                        border-bottom:1px solid #eee;
+                        text-align:center;
+                    ">
+
+                        <button
+                            onclick="
+                                markAttendance(
+                                    ${index},
+                                    'present'
+                                )
+                            "
+                            style="
+                                border:0;
+                                border-radius:7px;
+                                padding:8px 12px;
+                                margin:2px;
+                                background:${
+                                    status === "present"
+                                    ? "#22c55e"
+                                    : "#dcfce7"
+                                };
+                                color:${
+                                    status === "present"
+                                    ? "white"
+                                    : "#166534"
+                                };
+                                font-weight:bold;
+                            "
+                        >
+                            ✓
+                        </button>
+
+                        <button
+                            onclick="
+                                markAttendance(
+                                    ${index},
+                                    'absent'
+                                )
+                            "
+                            style="
+                                border:0;
+                                border-radius:7px;
+                                padding:8px 12px;
+                                margin:2px;
+                                background:${
+                                    status === "absent"
+                                    ? "#ef4444"
+                                    : "#fee2e2"
+                                };
+                                color:${
+                                    status === "absent"
+                                    ? "white"
+                                    : "#991b1b"
+                                };
+                                font-weight:bold;
+                            "
+                        >
+                            ✕
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+        </div>
+
+    `;
+
+
+    box.innerHTML =
+        html;
+
+}
+
+
+/* =========================
+   DATE FOR SELECTED DAY
+========================= */
+
+function getDateForDay(day){
+
+    let now =
+        new Date();
+
+
+    let currentDay =
+        now.getDay();
+
+
+    let target = {
+
+        Monday:1,
+        Tuesday:2,
+        Wednesday:3,
+        Thursday:4,
+        Friday:5
+
+    }[day];
+
+
+    let diff =
+        target - currentDay;
+
+
+    let d =
+        new Date(now);
+
+
+    d.setDate(
+        now.getDate() + diff
+    );
+
+
+    let y =
+        d.getFullYear();
+
+    let m =
+        String(
+            d.getMonth()+1
+        ).padStart(2,"0");
+
+    let date =
+        String(
+            d.getDate()
+        ).padStart(2,"0");
+
+
+    return `${y}-${m}-${date}`;
+
+}
+
+
+/* =========================
+   MARK ATTENDANCE
+========================= */
+
+function markAttendance(
+    index,
+    status
+){
+
+    let day =
+        window.selectedAttendanceDay;
+
+
+    if(!day)
+        return;
+
+
+    let date =
+        getDateForDay(day);
+
+
+    let lecture =
+        timetable[day][index];
+
+
+    let existing =
+        attendance.findIndex(a =>
+            a.date === date &&
+            a.day === day &&
+            a.lectureIndex === index
+        );
+
+
+    let record = {
+
+        id:Date.now(),
+
+        date:date,
+
+        day:day,
+
+        lectureIndex:index,
+
+        time:lecture.time,
+
+        subject:lecture.subject,
+
+        type:lecture.type,
+
+        status:status
+
+    };
+
+
+    if(existing >= 0){
+
+        attendance[existing] =
+            record;
+
+    }else{
+
+        attendance.push(
+            record
+        );
+
+    }
+
+
+    saveAll();
+
+    renderAttendanceTable();
+
+    renderAttendanceSummary();
+
+    renderSubjectAttendance();
+
+    renderAttendanceHistory();
+
+    renderStats();
 
 }
 
@@ -1490,177 +1972,13 @@ function renderHomework(){
 function renderAttendanceSummary(){
 
     let box =
-        document.getElementById("attendanceSummary");
-
-    let subjects = [...new Set(
-        attendance.map(a => a.subject)
-    )];
-
-
-    if(subjects.length === 0){
-
-        box.innerHTML = "";
-
-        return;
-
-    }
-
-
-    box.innerHTML =
-        subjects.map(subject => {
-
-            let records =
-                attendance.filter(
-                    a => a.subject === subject
-                );
-
-            let total = records.length;
-
-            let present =
-                records.filter(
-                    a => a.status === "present"
-                ).length;
-
-            let percent =
-                total === 0
-                ? 0
-                : Math.round((present / total) * 100);
-
-
-            return `
-
-            <div class="card subject-card">
-
-                <h3>📘 ${escapeHTML(subject)}</h3>
-
-                <p>
-                    ${present} Present /
-                    ${total} Lectures
-                </p>
-
-                <b>${percent}%</b>
-
-                <div class="progress">
-
-                    <div class="progress-bar"
-                         style="width:${percent}%">
-                    </div>
-
-                </div>
-
-            </div>
-
-            `;
-
-        }).join("");
-
-}
-
-
-/* =========================
-   ATTENDANCE LIST
-========================= */
-
-function renderAttendance(){
-
-    let list =
-        document.getElementById("attendanceList");
-
-    let data =
-        [...attendance]
-        .sort((a,b) =>
-            b.date.localeCompare(a.date)
+        document.getElementById(
+            "attendanceSummary"
         );
 
 
-    if(data.length === 0){
+    if(!box) return;
 
-        list.innerHTML =
-        `<div class="empty">
-            No lectures recorded yet.
-        </div>`;
-
-        return;
-
-    }
-
-
-    list.innerHTML =
-        data.map(a => `
-
-        <div class="card">
-
-            <button class="delete-btn"
-                    onclick="deleteAttendance(${a.id})">
-                🗑
-            </button>
-
-            <div class="attendance-row">
-
-                <div>
-
-                    <h3>
-                        ${escapeHTML(a.subject)}
-                    </h3>
-
-                    <p>
-                        📅 ${formatDate(a.date)}
-                    </p>
-
-                    <span class="badge ${
-                        a.status === "present"
-                        ? "completed"
-                        : "overdue"
-                    }">
-
-                    ${
-                        a.status === "present"
-                        ? "✓ Present"
-                        : "✕ Absent"
-                    }
-
-                    </span>
-
-                </div>
-
-
-                <div class="attendance-actions">
-
-                    <button class="present"
-                            onclick="changeAttendance(${a.id},'present')">
-                        ✓
-                    </button>
-
-                    <button class="absent"
-                            onclick="changeAttendance(${a.id},'absent')">
-                        ✕
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <br>
-
-
-            <button class="edit-btn"
-                    onclick="openModal('attendance',${a.id})">
-                ✏️ Edit
-            </button>
-
-        </div>
-
-        `).join("");
-
-}
-
-
-/* =========================
-   DASHBOARD
-========================= */
-
-function renderStats(){
 
     let total =
         attendance.length;
@@ -1672,306 +1990,750 @@ function renderStats(){
         ).length;
 
 
+    let absent =
+        attendance.filter(
+            a => a.status === "absent"
+        ).length;
+
+
     let percentage =
         total === 0
         ? 0
         : Math.round(
-            (present / total) * 100
+            present / total * 100
         );
 
 
-    document.getElementById(
-        "assignmentCount"
-    ).innerText =
-        assignments.length;
+    box.innerHTML = `
 
+        <div style="
+            overflow-x:auto;
+        ">
 
-    document.getElementById(
-        "homeworkCount"
-    ).innerText =
-        homework.length;
+        <table style="
+            width:100%;
+            border-collapse:collapse;
+            min-width:500px;
+        ">
 
+            <thead>
 
-    let pending =
-        assignments.filter(
-            a => !a.completed
-        ).length
-        +
-        homework.filter(
-            h => !h.completed
-        ).length;
+                <tr style="
+                    background:#eff6ff;
+                ">
 
+                    <th style="padding:12px">
+                        Total
+                    </th>
 
-    document.getElementById(
-        "pendingCount"
-    ).innerText =
-        pending;
+                    <th style="padding:12px">
+                        Present
+                    </th>
 
+                    <th style="padding:12px">
+                        Absent
+                    </th>
 
-    document.getElementById(
-        "attendancePercent"
-    ).innerText =
-        percentage + "%";
+                    <th style="padding:12px">
+                        Attendance
+                    </th>
 
-}
+                </tr>
 
+            </thead>
 
-/* =========================
-   UPCOMING WORK
+            <tbody>
+
+                <tr style="text-align:center">
+
+                    <td style="padding:12px">
+                        ${total}
+                    </td>
+
+                    <td style="padding:12px">
+                        ${present}
+                    </td>
+<td style="padding:12px">
+
+${absent}
+
+</td>
+
+<td style="
+
+">
+
+padding:12px;
+
+font-weight:bold;
+
+${percentage}%
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+`;
+    }
+    /* =========================
+   SUBJECT-WISE ATTENDANCE
 ========================= */
 
-function renderUpcoming(){
+function renderSubjectAttendance(){
 
     let box =
-        document.getElementById("upcoming");
+        document.getElementById(
+            "subjectAttendance"
+        );
 
 
-    let items = [
-
-        ...assignments
-        .filter(a => !a.completed)
-        .map(a => ({
-
-            id: a.id,
-            name: a.name,
-            subject: a.subject,
-            date: a.dueDate,
-            type: "Assignment"
-
-        })),
+    if(!box) return;
 
 
-        ...homework
-        .filter(h => !h.completed)
-        .map(h => ({
-
-            id: h.id,
-            name: h.name,
-            subject: h.subject,
-            date: h.dueDate,
-            type: "Homework"
-
-        }))
-
+    let subjects = [
+        ...new Set(
+            attendance.map(
+                a => a.subject
+            )
+        )
     ];
 
 
-    items.sort(
-        (a,b) =>
-        a.date.localeCompare(b.date)
+    if(subjects.length === 0){
+
+        box.innerHTML =
+            `<div class="empty">
+                No attendance data yet.
+            </div>`;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <div style="
+            overflow-x:auto;
+        ">
+
+        <table style="
+            width:100%;
+            border-collapse:collapse;
+            min-width:650px;
+        ">
+
+            <thead>
+
+                <tr style="
+                    background:#eff6ff;
+                ">
+
+                    <th style="padding:12px;text-align:left">
+                        Subject
+                    </th>
+
+                    <th style="padding:12px">
+                        Total
+                    </th>
+
+                    <th style="padding:12px">
+                        Present
+                    </th>
+
+                    <th style="padding:12px">
+                        Absent
+                    </th>
+
+                    <th style="padding:12px">
+                        %
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+    `;
+
+
+    subjects.forEach(subject => {
+
+        let records =
+            attendance.filter(
+                a => a.subject === subject
+            );
+
+
+        let total =
+            records.length;
+
+
+        let present =
+            records.filter(
+                a =>
+                a.status === "present"
+            ).length;
+
+
+        let absent =
+            records.filter(
+                a =>
+                a.status === "absent"
+            ).length;
+
+
+        let percentage =
+            total === 0
+            ? 0
+            : Math.round(
+                present / total * 100
+            );
+
+
+        html += `
+
+            <tr>
+
+                <td style="
+                    padding:12px;
+                    border-bottom:1px solid #eee;
+                    font-weight:bold;
+                ">
+                    ${escapeHTML(subject)}
+                </td>
+
+                <td style="
+                    padding:12px;
+                    text-align:center;
+                    border-bottom:1px solid #eee;
+                ">
+                    ${total}
+                </td>
+
+                <td style="
+                    padding:12px;
+                    text-align:center;
+                    border-bottom:1px solid #eee;
+                ">
+                    ${present}
+                </td>
+
+                <td style="
+                    padding:12px;
+                    text-align:center;
+                    border-bottom:1px solid #eee;
+                ">
+                    ${absent}
+                </td>
+
+                <td style="
+                    padding:12px;
+                    text-align:center;
+                    border-bottom:1px solid #eee;
+                    font-weight:bold;
+                ">
+                    ${percentage}%
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+        </div>
+
+    `;
+
+
+    box.innerHTML =
+        html;
+
+}
+
+
+/* =========================
+   ATTENDANCE HISTORY
+========================= */
+
+function renderAttendanceHistory(){
+
+    let box =
+        document.getElementById(
+            "attendanceHistory"
+        );
+
+
+    if(!box) return;
+
+
+    let data =
+        [...attendance]
+        .sort(
+            (a,b) =>
+            b.date.localeCompare(
+                a.date
+            )
+        );
+
+
+    if(data.length === 0){
+
+        box.innerHTML =
+            `<div class="empty">
+                No attendance history.
+            </div>`;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <div style="
+            overflow-x:auto;
+        ">
+
+        <table style="
+            width:100%;
+            border-collapse:collapse;
+            min-width:700px;
+        ">
+
+            <thead>
+
+                <tr style="
+                    background:#eff6ff;
+                ">
+
+                    <th style="padding:12px">
+                        Date
+                    </th>
+
+                    <th style="padding:12px">
+                        Day
+                    </th>
+
+                    <th style="padding:12px;text-align:left">
+                        Time
+                    </th>
+
+                    <th style="padding:12px;text-align:left">
+                        Subject
+                    </th>
+
+                    <th style="padding:12px">
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+    `;
+
+
+    data.forEach(a => {
+
+        html += `
+
+            <tr>
+
+                <td style="
+                    padding:12px;
+                    border-bottom:1px solid #eee;
+                ">
+                    ${formatDate(a.date)}
+                </td>
+
+                <td style="
+                    padding:12px;
+                    border-bottom:1px solid #eee;
+                    text-align:center;
+                ">
+                    ${a.day}
+                </td>
+
+                <td style="
+                    padding:12px;
+                    border-bottom:1px solid #eee;
+                ">
+                    ${a.time}
+                </td>
+
+                <td style="
+                    padding:12px;
+                    border-bottom:1px solid #eee;
+                    font-weight:bold;
+                ">
+                    ${escapeHTML(a.subject)}
+                </td>
+
+                <td style="
+                    padding:12px;
+                    border-bottom:1px solid #eee;
+                    text-align:center;
+                ">
+
+                    <span class="badge ${
+                        a.status === "present"
+                        ? "completed"
+                        : "overdue"
+                    }">
+
+                        ${
+                            a.status === "present"
+                            ? "✓ Present"
+                            : "✕ Absent"
+                        }
+
+                    </span>
+
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+        </div>
+
+    `;
+
+
+    box.innerHTML =
+        html;
+
+}
+
+
+/* =========================
+   TIMETABLE EDITOR
+========================= */
+
+function openTimetableEditor(){
+
+    let editor =
+        document.getElementById(
+            "timetableEditor"
+        );
+
+
+    editor.style.display =
+        editor.style.display === "none"
+        ? "block"
+        : "none";
+
+
+    renderTimetableEditor();
+
+}
+
+
+function renderTimetableEditor(){
+
+    let box =
+        document.getElementById(
+            "editorContent"
+        );
+
+
+    if(!box) return;
+
+
+    let days = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+    ];
+
+
+    box.innerHTML =
+        days.map(day => `
+
+        <div class="card"
+             style="border:1px solid #dbeafe">
+
+            <h3>
+                📅 ${day}
+            </h3>
+
+            <div id="
+                editor-${day}
+            ">
+
+                ${
+                    renderEditorRows(
+                        day
+                    )
+                }
+
+            </div>
+
+            <button
+                class="secondary"
+                onclick="
+                    addTimetableRow(
+                        '${day}'
+                    )
+                "
+            >
+                ➕ Add Lecture
+            </button>
+
+        </div>
+
+        `).join("");
+
+}
+
+
+function renderEditorRows(day){
+
+    let list =
+        timetable[day] || [];
+
+
+    if(list.length === 0){
+
+        return `
+            <div class="empty">
+                No lectures.
+            </div>
+        `;
+
+    }
+
+
+    return list.map(
+        (lecture,index) => `
+
+        <div style="
+            border:1px solid #e2e8f0;
+            border-radius:10px;
+            padding:10px;
+            margin-bottom:10px;
+        ">
+
+            <label>
+                Time
+            </label>
+
+            <input
+                value="${escapeAttribute(
+                    lecture.time
+                )}"
+                onchange="
+                    updateTimetable(
+                        '${day}',
+                        ${index},
+                        'time',
+                        this.value
+                    )
+                "
+            >
+
+
+            <label>
+                Subject
+            </label>
+
+            <input
+                value="${escapeAttribute(
+                    lecture.subject
+                )}"
+                onchange="
+                    updateTimetable(
+                        '${day}',
+                        ${index},
+                        'subject',
+                        this.value
+                    )
+                "
+            >
+
+
+            <label>
+                Type
+            </label>
+
+            <select
+                onchange="
+                    updateTimetable(
+                        '${day}',
+                        ${index},
+                        'type',
+                        this.value
+                    )
+                "
+            >
+
+                <option
+                    value="Lecture"
+                    ${
+                        lecture.type === "Lecture"
+                        ? "selected"
+                        : ""
+                    }
+                >
+                    Lecture
+                </option>
+
+                <option
+                    value="Practical"
+                    ${
+                        lecture.type === "Practical"
+                        ? "selected"
+                        : ""
+                    }
+                >
+                    Practical
+                </option>
+
+                <option
+                    value="Tutorial"
+                    ${
+                        lecture.type === "Tutorial"
+                        ? "selected"
+                        : ""
+                    }
+                >
+                    Tutorial
+                </option>
+
+            </select>
+
+
+            <button
+                class="danger"
+                onclick="
+                    deleteTimetableRow(
+                        '${day}',
+                        ${index}
+                    )
+                "
+            >
+                🗑 Remove
+            </button>
+
+        </div>
+
+        `
+    ).join("");
+
+}
+
+
+/* =========================
+   UPDATE TIMETABLE
+========================= */
+
+function updateTimetable(
+    day,
+    index,
+    field,
+    value
+){
+
+    if(
+        !timetable[day] ||
+        !timetable[day][index]
+    )
+        return;
+
+
+    timetable[day][index][field] =
+        value;
+
+
+    saveAll();
+
+    renderAttendanceTable();
+
+}
+
+
+/* =========================
+   ADD TIMETABLE ROW
+========================= */
+
+function addTimetableRow(day){
+
+    if(!timetable[day])
+        timetable[day] = [];
+
+
+    timetable[day].push({
+
+        time:"9:00 AM - 10:00 AM",
+
+        subject:"New Subject",
+
+        type:"Lecture"
+
+    });
+
+
+    saveAll();
+
+    renderTimetableEditor();
+
+    renderAttendanceTable();
+
+}
+
+
+/* =========================
+   DELETE TIMETABLE ROW
+========================= */
+
+function deleteTimetableRow(
+    day,
+    index
+){
+
+    if(!confirm(
+        "Remove this lecture from timetable?"
+    ))
+        return;
+
+
+    timetable[day].splice(
+        index,
+        1
     );
 
 
-    items =
-        items.slice(0,5);
+    saveAll();
 
+    renderTimetableEditor();
 
-    if(items.length === 0){
-
-        box.innerHTML =
-        `<div class="empty">
-            🎉 No pending work!
-        </div>`;
-
-        return;
-
-    }
-
-
-    box.innerHTML =
-        items.map(i => `
-
-        <div class="card">
-
-            <h3>
-                ${escapeHTML(i.name)}
-            </h3>
-
-            <p>
-                📘 ${escapeHTML(i.subject)}
-            </p>
-
-            <p>
-                📅 ${formatDate(i.date)}
-            </p>
-
-            <span class="badge ${
-                deadlineClass(i.date)
-            }">
-
-                ${i.type}
-                •
-                ${deadlineText(i.date)}
-
-            </span>
-
-        </div>
-
-        `).join("");
-
-}
-
-
-/* =========================
-   TODAY'S LECTURES
-========================= */
-
-function renderTodayLectures(){
-
-    let box =
-        document.getElementById(
-            "todayLectures"
-        );
-
-
-    let records =
-        attendance.filter(
-            a => a.date === today()
-        );
-
-
-    if(records.length === 0){
-
-        box.innerHTML =
-        `<div class="empty">
-            No lectures recorded for today.
-        </div>`;
-
-        return;
-
-    }
-
-
-    box.innerHTML =
-        records.map(a => `
-
-        <div class="card">
-
-            <button class="delete-btn"
-                    onclick="deleteAttendance(${a.id})">
-                🗑
-            </button>
-
-
-            <h3>
-                📘 ${escapeHTML(a.subject)}
-            </h3>
-
-
-            <p>
-                🎓 Today's lecture
-            </p>
-
-
-            <span class="badge ${
-                a.status === "present"
-                ? "completed"
-                : "overdue"
-            }">
-
-            ${
-                a.status === "present"
-                ? "✓ Present"
-                : "✕ Absent"
-            }
-
-            </span>
-
-        </div>
-
-        `).join("");
-
-}
-
-
-/* =========================
-   ALERTS
-========================= */
-
-function renderAlerts(){
-
-    let box =
-        document.getElementById(
-            "alerts"
-        );
-
-
-    let alerts = [];
-
-
-    assignments
-    .filter(a => !a.completed)
-    .forEach(a => {
-
-        let diff =
-            dateDifference(
-                a.dueDate
-            );
-
-
-        if(diff <= 2){
-
-            alerts.push({
-
-                text:
-                `📝 ${a.name} — ${
-                    deadlineText(a.dueDate)
-                }`
-
-            });
-
-        }
-
-    });
-
-
-    homework
-    .filter(h => !h.completed)
-    .forEach(h => {
-
-        let diff =
-            dateDifference(
-                h.dueDate
-            );
-
-
-        if(diff <= 2){
-
-            alerts.push({
-
-                text:
-                `📚 ${h.name} — ${
-                    deadlineText(h.dueDate)
-                }`
-
-            });
-
-        }
-
-    });
-
-
-    if(alerts.length === 0){
-
-        box.innerHTML =
-        `<div class="card">
-            ✅ No urgent deadlines.
-        </div>`;
-
-        return;
-
-    }
-
-
-    box.innerHTML =
-        alerts
-        .slice(0,5)
-        .map(a =>
-            `<div class="alert">
-                ${escapeHTML(a.text)}
-            </div>`
-        )
-        .join("");
+    renderAttendanceTable();
 
 }
 
@@ -1983,7 +2745,8 @@ function renderAlerts(){
 function changeMonth(amount){
 
     calendarDate.setMonth(
-        calendarDate.getMonth() + amount
+        calendarDate.getMonth() +
+        amount
     );
 
 
@@ -2006,6 +2769,10 @@ function renderCalendar(){
         );
 
 
+    if(!grid || !title)
+        return;
+
+
     let year =
         calendarDate.getFullYear();
 
@@ -2018,13 +2785,13 @@ function renderCalendar(){
         calendarDate.toLocaleDateString(
             "en-IN",
             {
-                month: "long",
-                year: "numeric"
+                month:"long",
+                year:"numeric"
             }
         );
 
 
-    let firstDay =
+    let first =
         new Date(
             year,
             month,
@@ -2051,78 +2818,111 @@ function renderCalendar(){
         "Thu",
         "Fri",
         "Sat"
-    ].forEach(d => {
+    ].forEach(day => {
 
-        html +=
-        `<div class="day-name">
-            ${d}
-        </div>`;
+        html += `
+
+            <div style="
+                padding:7px;
+                font-weight:bold;
+                font-size:12px;
+            ">
+                ${day}
+            </div>
+
+        `;
 
     });
 
 
     for(
-        let i = 0;
-        i < firstDay;
+        let i=0;
+        i<first;
         i++
     ){
 
-        html += `<div></div>`;
+        html +=
+            `<div></div>`;
 
     }
 
 
     for(
-        let d = 1;
-        d <= days;
+        let d=1;
+        d<=days;
         d++
     ){
 
-        let dateString =
-            `${year}-${String(month+1)
-            .padStart(2,"0")}-${String(d)
-            .padStart(2,"0")}`;
+        let date =
+            `${year}-${String(
+                month+1
+            ).padStart(2,"0")}-${String(
+                d
+            ).padStart(2,"0")}`;
 
 
         let hasEvent =
             assignments.some(
-                a => a.dueDate === dateString
+                a =>
+                a.dueDate === date
             )
             ||
             homework.some(
-                h => h.dueDate === dateString
+                h =>
+                h.dueDate === date
             )
             ||
             attendance.some(
-                a => a.date === dateString
+                a =>
+                a.date === date
             );
 
 
         let isToday =
-            dateString === today();
+            date === today();
 
 
         html += `
 
-        <div class="day
-        ${hasEvent ? "has-event" : ""}
-        ${isToday ? "selected" : ""}"
+            <div
+                onclick="
+                    showCalendarEvents(
+                        '${date}'
+                    )
+                "
+                style="
+                    padding:10px 3px;
+                    border-radius:8px;
+                    cursor:pointer;
+                    background:${
+                        isToday
+                        ? "#2563eb"
+                        : hasEvent
+                        ? "#dbeafe"
+                        : "#f8fafc"
+                    };
+                    color:${
+                        isToday
+                        ? "white"
+                        : "#172033"
+                    };
+                    font-weight:${
+                        isToday
+                        ? "bold"
+                        : "normal"
+                    };
+                "
+            >
 
-        onclick="
-            showCalendarEvents(
-                '${dateString}'
-            )
-        ">
+                ${d}
 
-            ${d}
+                ${
+                    hasEvent
+                    ? "<div>•</div>"
+                    : ""
+                }
 
-            ${
-                hasEvent
-                ? `<div class="dot"></div>`
-                : ""
-            }
-
-        </div>
+            </div>
 
         `;
 
@@ -2148,6 +2948,9 @@ function showCalendarEvents(date){
         );
 
 
+    if(!box) return;
+
+
     let events = [];
 
 
@@ -2159,11 +2962,11 @@ function showCalendarEvents(date){
 
         events.push({
 
-            type: "📝 Assignment",
+            type:"📝 Assignment",
 
-            name: a.name,
+            name:a.name,
 
-            subject: a.subject
+            subject:a.subject
 
         });
 
@@ -2178,11 +2981,11 @@ function showCalendarEvents(date){
 
         events.push({
 
-            type: "📚 Homework",
+            type:"📚 Homework",
 
-            name: h.name,
+            name:h.name,
 
-            subject: h.subject
+            subject:h.subject
 
         });
 
@@ -2197,9 +3000,9 @@ function showCalendarEvents(date){
 
         events.push({
 
-            type: "🎓 Lecture",
+            type:"🎓 Lecture",
 
-            name: a.subject,
+            name:a.subject,
 
             subject:
                 a.status === "present"
@@ -2214,12 +3017,10 @@ function showCalendarEvents(date){
     if(events.length === 0){
 
         box.innerHTML =
-        `<div class="empty">
-
-            No events on
-            ${formatDate(date)}.
-
-        </div>`;
+            `<div class="empty">
+                No events on
+                ${formatDate(date)}.
+            </div>`;
 
         return;
 
@@ -2227,33 +3028,472 @@ function showCalendarEvents(date){
 
 
     box.innerHTML =
-        `<p class="small"
-            style="margin-bottom:10px">
-
-            ${formatDate(date)}
-
-        </p>`
-        +
-
         events.map(e => `
 
-        <div class="card">
+            <div class="card">
 
-            <h3>
-                ${e.type}
-            </h3>
+                <h3>
+                    ${e.type}
+                </h3>
 
-            <p>
-                📌 ${escapeHTML(e.name)}
-            </p>
+                <p>
+                    📌 ${escapeHTML(e.name)}
+                </p>
 
-            <p>
-                ℹ️ ${escapeHTML(e.subject)}
-            </p>
+                <p>
+                    ℹ️ ${escapeHTML(e.subject)}
+                </p>
 
-        </div>
+            </div>
 
         `).join("");
+
+    }
+    /* =========================
+   DASHBOARD
+========================= */
+
+function renderStats(){
+
+    let total =
+        attendance.length;
+
+
+    let present =
+        attendance.filter(
+            a =>
+            a.status === "present"
+        ).length;
+
+
+    let percentage =
+        total === 0
+        ? 0
+        : Math.round(
+            present / total * 100
+        );
+
+
+    let assignmentCount =
+        document.getElementById(
+            "assignmentCount"
+        );
+
+
+    let homeworkCount =
+        document.getElementById(
+            "homeworkCount"
+        );
+
+
+    let pendingCount =
+        document.getElementById(
+            "pendingCount"
+        );
+
+
+    let attendancePercent =
+        document.getElementById(
+            "attendancePercent"
+        );
+
+
+    if(assignmentCount)
+        assignmentCount.innerText =
+            assignments.length;
+
+
+    if(homeworkCount)
+        homeworkCount.innerText =
+            homework.length;
+
+
+    if(pendingCount){
+
+        let pending =
+            assignments.filter(
+                a => !a.completed
+            ).length
+            +
+            homework.filter(
+                h => !h.completed
+            ).length;
+
+
+        pendingCount.innerText =
+            pending;
+
+    }
+
+
+    if(attendancePercent)
+        attendancePercent.innerText =
+            percentage + "%";
+
+}
+
+
+/* =========================
+   TODAY LECTURES
+========================= */
+
+function renderTodayLectures(){
+
+    let box =
+        document.getElementById(
+            "todayLectures"
+        );
+
+
+    if(!box) return;
+
+
+    let day =
+        getDayName();
+
+
+    if(
+        day === "Saturday" ||
+        day === "Sunday"
+    ){
+
+        box.innerHTML =
+            `<div class="empty">
+                🎉 No college timetable today.
+            </div>`;
+
+        return;
+
+    }
+
+
+    let list =
+        timetable[day] || [];
+
+
+    if(list.length === 0){
+
+        box.innerHTML =
+            `<div class="empty">
+                No lectures scheduled.
+            </div>`;
+
+        return;
+
+    }
+
+
+    let date =
+        today();
+
+
+    box.innerHTML =
+        list.map(
+            (lecture,index) => {
+
+                let record =
+                    attendance.find(
+                        a =>
+                        a.date === date &&
+                        a.day === day &&
+                        a.lectureIndex === index
+                    );
+
+
+                let status =
+                    record
+                    ? record.status
+                    : "pending";
+
+
+                return `
+
+                <div style="
+                    padding:10px;
+                    border-bottom:1px solid #eee;
+                ">
+
+                    <strong>
+                        ${lecture.time}
+                    </strong>
+
+                    <br>
+
+                    📘 ${escapeHTML(
+                        lecture.subject
+                    )}
+
+                    <span
+                        class="badge ${
+                            status === "present"
+                            ? "completed"
+                            : status === "absent"
+                            ? "overdue"
+                            : "pending"
+                        }"
+                        style="
+                            float:right;
+                        "
+                    >
+
+                        ${
+                            status === "present"
+                            ? "✓ Present"
+                            : status === "absent"
+                            ? "✕ Absent"
+                            : "Not Marked"
+                        }
+
+                    </span>
+
+                </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =========================
+   UPCOMING
+========================= */
+
+function renderUpcoming(){
+
+    let box =
+        document.getElementById(
+            "upcoming"
+        );
+
+
+    if(!box) return;
+
+
+    let items = [
+
+        ...assignments
+        .filter(
+            a => !a.completed
+        )
+        .map(
+            a => ({
+                name:a.name,
+                subject:a.subject,
+                date:a.dueDate,
+                type:"Assignment"
+            })
+        ),
+
+        ...homework
+        .filter(
+            h => !h.completed
+        )
+        .map(
+            h => ({
+                name:h.name,
+                subject:h.subject,
+                date:h.dueDate,
+                type:"Homework"
+            })
+        )
+
+    ];
+
+
+    items.sort(
+        (a,b) =>
+        a.date.localeCompare(
+            b.date
+        )
+    );
+
+
+    items =
+        items.slice(0,5);
+
+
+    if(items.length === 0){
+
+        box.innerHTML =
+            `<div class="empty">
+                🎉 No pending work!
+            </div>`;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        items.map(
+            item => `
+
+            <div style="
+                padding:10px;
+                border-bottom:1px solid #eee;
+            ">
+
+                <strong>
+                    ${escapeHTML(
+                        item.name
+                    )}
+                </strong>
+
+                <br>
+
+                📘 ${escapeHTML(
+                    item.subject
+                )}
+
+                <br>
+
+                📅 ${formatDate(
+                    item.date
+                )}
+
+                <span
+                    class="badge ${
+                        deadlineClass(
+                            item.date
+                        )
+                    }"
+                >
+                    ${item.type}
+                </span>
+
+            </div>
+
+            `
+        ).join("");
+
+}
+
+
+/* =========================
+   ALERTS
+========================= */
+
+function renderAlerts(){
+
+    let box =
+        document.getElementById(
+            "alerts"
+        );
+
+
+    if(!box) return;
+
+
+    let alerts = [];
+
+
+    assignments
+    .filter(
+        a => !a.completed
+    )
+    .forEach(a => {
+
+        let diff =
+            dateDifference(
+                a.dueDate
+            );
+
+
+        if(diff <= 2){
+
+            alerts.push(
+                `📝 ${a.name} — ${
+                    deadlineText(
+                        a.dueDate
+                    )
+                }`
+            );
+
+        }
+
+    });
+
+
+    homework
+    .filter(
+        h => !h.completed
+    )
+    .forEach(h => {
+
+        let diff =
+            dateDifference(
+                h.dueDate
+            );
+
+
+        if(diff <= 2){
+
+            alerts.push(
+                `📚 ${h.name} — ${
+                    deadlineText(
+                        h.dueDate
+                    )
+                }`
+            );
+
+        }
+
+    });
+
+
+    if(alerts.length === 0){
+
+        box.innerHTML =
+            `<div class="empty">
+                ✅ No urgent deadlines.
+            </div>`;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        alerts
+        .slice(0,5)
+        .map(
+            x =>
+            `<div class="alert">
+                ${escapeHTML(x)}
+            </div>`
+        )
+        .join("");
+
+}
+
+
+/* =========================
+   HOME DATE
+========================= */
+
+function renderHomeDate(){
+
+    let box =
+        document.getElementById(
+            "homeDate"
+        );
+
+
+    if(!box) return;
+
+
+    box.innerText =
+        new Date().toLocaleDateString(
+            "en-IN",
+            {
+                weekday:"long",
+                day:"numeric",
+                month:"long",
+                year:"numeric"
+            }
+        );
 
 }
 
@@ -2264,10 +3504,12 @@ function showCalendarEvents(date){
 
 function requestNotifications(){
 
-    if(!("Notification" in window)){
+    if(
+        !("Notification" in window)
+    ){
 
         alert(
-            "Notifications are not supported by this browser."
+            "Notifications are not supported."
         );
 
         return;
@@ -2275,34 +3517,38 @@ function requestNotifications(){
     }
 
 
-    Notification.requestPermission()
-    .then(permission => {
+    Notification
+        .requestPermission()
+        .then(permission => {
 
-        if(permission === "granted"){
+            if(
+                permission === "granted"
+            ){
 
-            alert(
-                "🔔 Notifications enabled!"
-            );
+                alert(
+                    "🔔 Notifications enabled!"
+                );
 
-            checkNotifications();
+                checkNotifications();
 
-        }
-        else{
+            }else{
 
-            alert(
-                "Notification permission was not granted."
-            );
+                alert(
+                    "Notification permission was not granted."
+                );
 
-        }
+            }
 
-    });
+        });
 
 }
 
 
 function checkNotifications(){
 
-    if(!("Notification" in window))
+    if(
+        !("Notification" in window)
+    )
         return;
 
 
@@ -2316,25 +3562,28 @@ function checkNotifications(){
     let items = [
 
         ...assignments
-        .filter(a => !a.completed)
-        .map(a => ({
-
-            name: a.name,
-            date: a.dueDate,
-            type: "Assignment"
-
-        })),
-
+        .filter(
+            a => !a.completed
+        )
+        .map(
+            a => ({
+                name:a.name,
+                date:a.dueDate,
+                type:"Assignment"
+            })
+        ),
 
         ...homework
-        .filter(h => !h.completed)
-        .map(h => ({
-
-            name: h.name,
-            date: h.dueDate,
-            type: "Homework"
-
-        }))
+        .filter(
+            h => !h.completed
+        )
+        .map(
+            h => ({
+                name:h.name,
+                date:h.dueDate,
+                type:"Homework"
+            })
+        )
 
     ];
 
@@ -2353,7 +3602,7 @@ function checkNotifications(){
         ){
 
             let key =
-                "notification_" +
+                "studymate_notice_" +
                 item.type +
                 "_" +
                 item.name +
@@ -2368,7 +3617,6 @@ function checkNotifications(){
                 new Notification(
                     "📚 StudyMate Reminder",
                     {
-
                         body:
                         `${item.type}: ${
                             item.name
@@ -2377,7 +3625,6 @@ function checkNotifications(){
                                 item.date
                             )
                         }`
-
                     }
                 );
 
@@ -2404,12 +3651,15 @@ function backupData(){
 
     let data = {
 
-        app: "StudyMate",
+        app:"StudyMate",
 
-        version: "2.0",
+        version:"3.0",
 
         exportedAt:
             new Date().toISOString(),
+
+        timetable:
+            timetable,
 
         assignments:
             assignments,
@@ -2451,7 +3701,8 @@ function backupData(){
         );
 
 
-    a.href = url;
+    a.href =
+        url;
 
 
     a.download =
@@ -2498,63 +3749,67 @@ function restoreData(){
     reader.onload =
         function(e){
 
-        try{
+            try{
 
-            let data =
-                JSON.parse(
-                    e.target.result
+                let data =
+                    JSON.parse(
+                        e.target.result
+                    );
+
+
+                if(
+                    !data.timetable ||
+                    !data.assignments ||
+                    !data.homework ||
+                    !data.attendance
+                ){
+
+                    throw new Error();
+
+                }
+
+
+                if(!confirm(
+                    "Restore backup? Existing data will be replaced."
+                ))
+                    return;
+
+
+                timetable =
+                    data.timetable;
+
+
+                assignments =
+                    data.assignments;
+
+
+                homework =
+                    data.homework;
+
+
+                attendance =
+                    data.attendance;
+
+
+                saveAll();
+
+                render();
+
+                alert(
+                    "✅ Backup restored successfully!"
                 );
 
 
-            if(
-                !data.assignments ||
-                !data.homework ||
-                !data.attendance
-            ){
+            }
+            catch(error){
 
-                throw new Error();
+                alert(
+                    "❌ Invalid StudyMate backup file."
+                );
 
             }
 
-
-            if(!confirm(
-                "Restore backup? Existing data will be replaced."
-            )) return;
-
-
-            assignments =
-                data.assignments;
-
-
-            homework =
-                data.homework;
-
-
-            attendance =
-                data.attendance;
-
-
-            saveAll();
-
-
-            render();
-
-
-            alert(
-                "✅ Backup restored successfully!"
-            );
-
-
-        }
-        catch{
-
-            alert(
-                "❌ Invalid StudyMate backup file."
-            );
-
-        }
-
-    };
+        };
 
 
     reader.readAsText(
@@ -2572,7 +3827,8 @@ function resetAll(){
 
     if(!confirm(
         "WARNING: Delete ALL StudyMate data?"
-    )) return;
+    ))
+        return;
 
 
     assignments = [];
@@ -2581,43 +3837,45 @@ function resetAll(){
 
     attendance = [];
 
+    timetable =
+        JSON.parse(
+            JSON.stringify(
+                defaultTimetable
+            )
+        );
+
 
     saveAll();
-
-
-    localStorage.clear();
-
 
     render();
 
 
     alert(
-        "All data has been deleted."
+        "StudyMate has been reset."
     );
 
 }
 
 
 /* =========================
-   SECURITY
+   SECURITY HELPERS
 ========================= */
 
 function escapeHTML(text){
 
     return String(
         text || ""
-    )
-    .replace(
+    ).replace(
         /[&<>"']/g,
         function(m){
 
             return {
 
-                '&':'&amp;',
-                '<':'&lt;',
-                '>':'&gt;',
-                '"':'&quot;',
-                "'":'&#039;'
+                "&":"&amp;",
+                "<":"&lt;",
+                ">":"&gt;",
+                '"':"&quot;",
+                "'":"&#039;"
 
             }[m];
 
@@ -2627,27 +3885,60 @@ function escapeHTML(text){
 }
 
 
+function escapeAttribute(text){
+
+    return String(
+        text || ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    );
+
+}
+
+
 /* =========================
-   RENDER
+   MAIN RENDER
 ========================= */
 
 function render(){
+
+    renderHomeDate();
+
+    renderStats();
 
     renderAssignments();
 
     renderHomework();
 
-    renderAttendance();
-
-    renderAttendanceSummary();
-
-    renderStats();
+    renderTodayLectures();
 
     renderUpcoming();
 
-    renderTodayLectures();
-
     renderAlerts();
+
+    renderDayTabs();
+
+    renderAttendanceTable();
+
+    renderAttendanceSummary();
+
+    renderSubjectAttendance();
+
+    renderAttendanceHistory();
 
     renderCalendar();
 
@@ -2656,10 +3947,14 @@ function render(){
 }
 
 
+/* =========================
+   START APP
+========================= */
+
 render();
 
 
-/* Check reminders every minute */
+/* Refresh reminders */
 
 setInterval(
     checkNotifications,
@@ -2670,3 +3965,4 @@ setInterval(
 
 </body>
 </html>
+    
