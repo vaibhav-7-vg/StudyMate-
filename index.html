@@ -471,42 +471,116 @@ label{
 
 </section>
 
+<!-- CALENDAR -->
+<div id="calendarPage" class="page">
 
-<section id="calendar" class="page">
-
-    <div class="card">
-
+    <div class="section-title">
         <h2>📅 Calendar</h2>
+    </div>
 
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+    <div class="calendar">
 
-            <button class="secondary"
-                    onclick="changeMonth(-1)">
+        <div class="calendar-header">
+
+            <button onclick="changeMonth(-1)">
                 ◀
             </button>
 
-            <strong id="calendarTitle"></strong>
+            <b id="calendarTitle"></b>
 
-            <button class="secondary"
-                    onclick="changeMonth(1)">
+            <button onclick="changeMonth(1)">
                 ▶
             </button>
 
         </div>
 
-        <div id="calendarGrid"
-             style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center">
+        <div class="calendar-grid"
+             id="calendarGrid"></div>
+
+    </div>
+
+
+    <!-- SELECTED DATE -->
+
+    <div class="section">
+
+        <div class="card">
+
+            <h3 id="selectedDateTitle">
+                📌 Select a date
+            </h3>
+
+            <button
+                class="add-btn"
+                onclick="openCalendarEventForm()"
+                style="margin-top:10px;"
+            >
+                ➕ Add Event
+            </button>
+
         </div>
 
     </div>
 
-    <div class="card">
-        <h2>Events</h2>
-        <div id="calendarEvents"></div>
+
+    <!-- ADD EVENT FORM -->
+
+    <div
+        id="calendarEventForm"
+        class="card"
+        style="display:none;"
+    >
+
+        <h3>➕ Add Event</h3>
+
+        <label>Event Title</label>
+
+        <input
+            id="calendarEventTitle"
+            type="text"
+            placeholder="Example: CN Assignment"
+        >
+
+
+        <label>Description</label>
+
+        <textarea
+            id="calendarEventDescription"
+            placeholder="Write event details..."
+        ></textarea>
+
+
+        <button
+            class="save-btn"
+            onclick="saveCalendarEvent()"
+        >
+            💾 Save Event
+        </button>
+
+
+        <button
+            class="close-btn"
+            onclick="closeCalendarEventForm()"
+        >
+            Cancel
+        </button>
+
     </div>
 
-</section>
 
+    <!-- EVENTS -->
+
+    <div class="section">
+
+        <h2 style="margin-bottom:12px">
+            📌 Events
+        </h2>
+
+        <div id="calendarEvents"></div>
+
+    </div>
+
+</div>
 
 <section id="settings" class="page">
 
