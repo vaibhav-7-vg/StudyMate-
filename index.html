@@ -4034,6 +4034,439 @@ setInterval(
     checkNotifications,
     60000
 );
+    /* =========================
+   CALENDAR EVENTS
+========================= */
+
+let calendarEvents = JSON.parse(
+    localStorage.getItem("studymate_calendar_events")
+) || [];
+
+let selectedCalendarDate = new Date()
+    .toISOString()
+    .split("T")[0];
+
+
+/* =========================
+   OPEN EVENT FORM
+========================= */
+
+function openCalendarEventForm() {
+
+    if (!selectedCalendarDate) {
+        alert("Please select a date first.");
+        return;
+    }
+
+    document.getElementById(
+        "calendarEventForm"
+    ).style.display = "block";
+}
+
+
+/* =========================
+   CLOSE EVENT FORM
+========================= */
+
+function closeCalendarEventForm() {
+
+    document.getElementById(
+        "calendarEventForm"
+    ).style.display = "none";
+}
+
+
+/* =========================
+   SAVE EVENT
+========================= */
+
+function saveCalendarEvent() {
+
+    const title =
+        document.getElementById(
+            "calendarEventTitle"
+        ).value.trim();
+
+    const description =
+        document.getElementById(
+            "calendarEventDescription"
+        ).value.trim();
+
+
+    if (!title) {
+
+        alert("Please enter an event title.");
+
+        return;
+    }
+
+
+    calendarEvents.push({
+
+        id: Date.now(),
+
+        date: selectedCalendarDate,
+
+        title: title,
+
+        description: description
+
+    });
+
+
+    localStorage.setItem(
+        "studymate_calendar_events",
+        JSON.stringify(calendarEvents)
+    );
+
+
+    document.getElementById(
+        "calendarEventTitle"
+    ).value = "";
+
+    document.getElementById(
+        "calendarEventDescription"
+    ).value = "";
+
+
+    closeCalendarEventForm();
+
+
+    renderCalendar();
+
+
+    showCalendarEvents(
+        selectedCalendarDate
+    );
+
+
+    alert("✅ Event added successfully!");
+}
+
+
+/* =========================
+   SHOW EVENTS
+========================= */
+
+function showCalendarEvents(date) {
+
+    selectedCalendarDate = date;
+
+
+    const title =
+        document.getElementById(
+            "selectedDateTitle"
+        );
+
+    if (title) {
+
+        title.innerText =
+            "📌 " + date;
+    }
+
+
+    const box =
+        document.getElementById(
+            "calendarEvents"
+        );
+
+    if (!box) return;
+
+
+    const events =
+        calendarEvents.filter(
+            event => event.date === date
+        );
+
+
+    if (events.length === 0) {
+
+        box.innerHTML = `
+            <div class="empty">
+                No events on this date.
+                <br><br>
+                Click ➕ Add Event to add one.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    box.innerHTML = events.map(
+        event => `
+
+        <div class="card"
+             style="margin-bottom:10px;">
+
+            <h3>
+                📌 ${escapeCalendarHTML(event.title)}
+            </h3>
+
+            ${
+                event.description
+                ? `
+                    <p style="
+                        margin-top:6px;
+                        color:#64748b;
+                    ">
+                        ${escapeCalendarHTML(
+                            event.description
+                        )}
+                    </p>
+                  `
+                : ""
+            }
+
+            <button
+                class="delete-btn"
+                onclick="
+                    deleteCalendarEvent(
+                        ${event.id}
+                    )
+                "
+            >
+                🗑 Delete
+            </button>
+
+        </div>
+
+        `
+    ).join("");
+}
+
+
+/* =========================
+   DELETE EVENT
+========================= */
+
+function deleteCalendarEvent(id) {
+
+    if (!confirm("Delete this event?")) {
+        return;
+    }
+
+
+    calendarEvents =
+        calendarEvents.filter(
+            event => event.id !== id
+        );
+
+
+    localStorage.setItem(
+        "studymate_calendar_events",
+        JSON.stringify(calendarEvents)
+    );
+
+
+    renderCalendar();
+
+    showCalendarEvents(
+        selectedCalendarDate
+    );
+}
+
+
+/* =========================
+   SAFE TEXT
+========================= */
+
+function escapeCalendarHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+/* =========================
+   CALENDAR
+========================= */
+
+let calendarDate = new Date();
+
+
+function renderCalendar() {
+
+    const grid =
+        document.getElementById(
+            "calendarGrid"
+        );
+
+    const title =
+        document.getElementById(
+            "calendarTitle"
+        );
+
+
+    if (!grid || !title) return;
+
+
+    const year =
+        calendarDate.getFullYear();
+
+    const month =
+        calendarDate.getMonth();
+
+
+    title.innerText =
+        calendarDate.toLocaleDateString(
+            "en-IN",
+            {
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+
+    const firstDay =
+        new Date(
+            year,
+            month,
+            1
+        ).getDay();
+
+
+    const totalDays =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    let html = "";
+
+
+    const weekDays = [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+    ];
+
+
+    weekDays.forEach(day => {
+
+        html += `
+            <div style="
+                font-weight:bold;
+                padding:8px;
+            ">
+                ${day}
+            </div>
+        `;
+
+    });
+
+
+    for (
+        let i = 0;
+        i < firstDay;
+        i++
+    ) {
+
+        html += `<div></div>`;
+    }
+
+
+    for (
+        let day = 1;
+        day <= totalDays;
+        day++
+    ) {
+
+        const date =
+            `${year}-${String(
+                month + 1
+            ).padStart(2, "0")}-${String(
+                day
+            ).padStart(2, "0")}`;
+
+
+        const hasEvent =
+            calendarEvents.some(
+                event =>
+                    event.date === date
+            );
+
+
+        html += `
+
+            <div
+                onclick="
+                    showCalendarEvents(
+                        '${date}'
+                    )
+                "
+                style="
+                    padding:10px 4px;
+                    border-radius:8px;
+                    cursor:pointer;
+                    background:${
+                        date === selectedCalendarDate
+                        ? "#2563eb"
+                        : hasEvent
+                        ? "#e0e7ff"
+                        : "#f8fafc"
+                    };
+                    color:${
+                        date === selectedCalendarDate
+                        ? "white"
+                        : "#172033"
+                    };
+                "
+            >
+
+                ${day}
+
+                ${
+                    hasEvent
+                    ? `<div>•</div>`
+                    : ""
+                }
+
+            </div>
+
+        `;
+    }
+
+
+    grid.innerHTML = html;
+
+
+    showCalendarEvents(
+        selectedCalendarDate
+    );
+}
+
+
+/* =========================
+   CHANGE MONTH
+========================= */
+
+function changeMonth(direction) {
+
+    calendarDate.setMonth(
+        calendarDate.getMonth() + direction
+    );
+
+
+    renderCalendar();
+}
+
+
+/* =========================
+   START CALENDAR
+========================= */
+
+renderCalendar();
 
 </script>
 
