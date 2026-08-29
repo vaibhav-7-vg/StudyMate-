@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#2563eb">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>StudyMate</title>
 
 <style>
@@ -17,14 +18,19 @@
 body{
     background:#f4f7fb;
     color:#172033;
-    padding-bottom:80px;
+    padding-bottom:85px;
+}
+
+button{
+    border:none;
+    cursor:pointer;
 }
 
 header{
     background:#2563eb;
     color:white;
-    padding:22px 18px;
-    border-radius:0 0 25px 25px;
+    padding:23px 18px;
+    border-radius:0 0 26px 26px;
 }
 
 header h1{
@@ -37,28 +43,35 @@ header p{
 }
 
 .container{
-    padding:18px;
-    max-width:700px;
+    max-width:750px;
     margin:auto;
+    padding:18px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
 }
 
 .stats{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:12px;
-    margin-top:-5px;
 }
 
 .stat{
     background:white;
-    padding:18px;
+    padding:17px;
     border-radius:16px;
     box-shadow:0 3px 12px rgba(0,0,0,.06);
 }
 
 .stat h2{
-    font-size:25px;
     color:#2563eb;
+    font-size:25px;
 }
 
 .stat p{
@@ -75,52 +88,47 @@ header p{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:12px;
+    margin-bottom:13px;
 }
 
 .section-title h2{
     font-size:20px;
 }
 
-button{
-    border:none;
-    cursor:pointer;
-}
-
 .add-btn{
     background:#2563eb;
     color:white;
-    padding:10px 15px;
+    padding:10px 14px;
     border-radius:10px;
     font-weight:bold;
 }
 
 .card{
     background:white;
-    padding:15px;
-    border-radius:15px;
-    margin-bottom:10px;
-    box-shadow:0 3px 10px rgba(0,0,0,.05);
+    padding:16px;
+    border-radius:16px;
+    margin-bottom:11px;
+    box-shadow:0 3px 12px rgba(0,0,0,.05);
 }
 
 .card h3{
     font-size:16px;
-    margin-bottom:6px;
+    margin-bottom:7px;
 }
 
 .card p{
     color:#666;
     font-size:13px;
-    margin:4px 0;
+    margin:5px 0;
 }
 
 .badge{
     display:inline-block;
-    margin-top:8px;
     padding:5px 9px;
     border-radius:20px;
     font-size:11px;
     font-weight:bold;
+    margin-top:7px;
 }
 
 .pending{
@@ -133,12 +141,38 @@ button{
     color:#15803d;
 }
 
-.delete{
+.today{
+    background:#dbeafe;
+    color:#1d4ed8;
+}
+
+.overdue{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.delete-btn{
     float:right;
     background:#fee2e2;
     color:#dc2626;
-    padding:6px 9px;
+    padding:7px 9px;
     border-radius:8px;
+}
+
+.edit-btn{
+    background:#e0e7ff;
+    color:#3730a3;
+    padding:8px 10px;
+    border-radius:8px;
+    margin-top:8px;
+}
+
+.complete-btn{
+    background:#2563eb;
+    color:white;
+    padding:8px 10px;
+    border-radius:8px;
+    margin-top:8px;
 }
 
 .empty{
@@ -146,7 +180,17 @@ button{
     color:#888;
     background:white;
     padding:25px;
-    border-radius:15px;
+    border-radius:16px;
+}
+
+.search{
+    width:100%;
+    padding:13px;
+    border:1px solid #ddd;
+    border-radius:11px;
+    margin-bottom:15px;
+    font-size:14px;
+    outline:none;
 }
 
 nav{
@@ -154,8 +198,8 @@ nav{
     bottom:0;
     left:0;
     right:0;
+    height:70px;
     background:white;
-    height:68px;
     display:flex;
     justify-content:space-around;
     align-items:center;
@@ -166,13 +210,13 @@ nav{
 nav button{
     background:none;
     color:#777;
-    font-size:11px;
+    font-size:10px;
 }
 
 nav button span{
     display:block;
-    font-size:22px;
-    margin-bottom:2px;
+    font-size:21px;
+    margin-bottom:3px;
 }
 
 nav button.active{
@@ -180,20 +224,12 @@ nav button.active{
     font-weight:bold;
 }
 
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
 .modal{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.5);
-    z-index:20;
+    background:rgba(0,0,0,.55);
+    z-index:30;
     align-items:flex-end;
 }
 
@@ -204,11 +240,11 @@ nav button.active{
 .modal-box{
     background:white;
     width:100%;
-    max-width:700px;
+    max-width:750px;
     margin:auto;
     padding:22px;
-    border-radius:22px 22px 0 0;
-    max-height:90vh;
+    border-radius:23px 23px 0 0;
+    max-height:92vh;
     overflow:auto;
 }
 
@@ -216,13 +252,19 @@ nav button.active{
     margin-bottom:15px;
 }
 
+label{
+    font-size:13px;
+    font-weight:bold;
+}
+
 input,select,textarea{
     width:100%;
     padding:13px;
-    margin:7px 0 12px;
+    margin:7px 0 13px;
     border:1px solid #ddd;
     border-radius:10px;
     font-size:14px;
+    outline:none;
 }
 
 textarea{
@@ -243,21 +285,22 @@ textarea{
 .close-btn{
     width:100%;
     background:#eee;
-    padding:12px;
+    padding:13px;
     border-radius:10px;
     margin-top:8px;
 }
 
-.attendance-box{
+.attendance-row{
     display:flex;
     justify-content:space-between;
     align-items:center;
+    gap:10px;
 }
 
 .attendance-actions button{
     padding:8px 10px;
     border-radius:8px;
-    margin-left:4px;
+    margin-left:3px;
 }
 
 .present{
@@ -271,9 +314,9 @@ textarea{
 }
 
 .progress{
-    height:8px;
+    height:9px;
     background:#e5e7eb;
-    border-radius:10px;
+    border-radius:20px;
     overflow:hidden;
     margin-top:10px;
 }
@@ -283,9 +326,105 @@ textarea{
     background:#2563eb;
 }
 
-.big-date{
+.calendar{
+    background:white;
+    padding:15px;
+    border-radius:17px;
+    box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+.calendar-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.calendar-header button{
+    background:#e5edff;
+    color:#2563eb;
+    padding:8px 12px;
+    border-radius:9px;
+}
+
+.calendar-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:5px;
+    text-align:center;
+}
+
+.day-name{
+    font-size:11px;
+    color:#777;
+    padding:7px 0;
+    font-weight:bold;
+}
+
+.day{
+    min-height:42px;
+    padding:8px 2px;
+    border-radius:9px;
     font-size:13px;
-    color:#666;
+    position:relative;
+}
+
+.day.has-event{
+    background:#dbeafe;
+    color:#1d4ed8;
+    font-weight:bold;
+}
+
+.day.selected{
+    outline:2px solid #2563eb;
+}
+
+.dot{
+    width:5px;
+    height:5px;
+    background:#2563eb;
+    border-radius:50%;
+    margin:3px auto 0;
+}
+
+.subject-card{
+    margin-bottom:12px;
+}
+
+.settings-card{
+    background:white;
+    padding:17px;
+    border-radius:16px;
+    margin-bottom:12px;
+}
+
+.settings-card button{
+    width:100%;
+    padding:12px;
+    margin-top:8px;
+    border-radius:10px;
+    background:#eaf0ff;
+    color:#2563eb;
+    font-weight:bold;
+}
+
+.danger{
+    background:#fee2e2 !important;
+    color:#dc2626 !important;
+}
+
+.alert{
+    background:#fff7ed;
+    border-left:4px solid #f97316;
+    padding:13px;
+    border-radius:10px;
+    margin-bottom:10px;
+    font-size:13px;
+}
+
+.small{
+    font-size:12px;
+    color:#777;
 }
 
 @media(min-width:600px){
@@ -300,7 +439,7 @@ textarea{
 
 <header>
     <h1>📚 StudyMate</h1>
-    <p>Your personal college assistant</p>
+    <p>Never forget your college work again.</p>
 </header>
 
 <div class="container">
@@ -309,6 +448,7 @@ textarea{
 <div id="home" class="page active">
 
     <div class="stats">
+
         <div class="stat">
             <h2 id="assignmentCount">0</h2>
             <p>Assignments</p>
@@ -328,14 +468,41 @@ textarea{
             <h2 id="attendancePercent">0%</h2>
             <p>Attendance</p>
         </div>
+
     </div>
 
     <div class="section">
+
         <div class="section-title">
-            <h2>⚠️ Upcoming</h2>
+            <h2>🔔 Alerts</h2>
+        </div>
+
+        <div id="alerts"></div>
+
+    </div>
+
+    <div class="section">
+
+        <div class="section-title">
+            <h2>📅 Today's Lectures</h2>
+            <button class="add-btn"
+                    onclick="openModal('attendance')">
+                + Add
+            </button>
+        </div>
+
+        <div id="todayLectures"></div>
+
+    </div>
+
+    <div class="section">
+
+        <div class="section-title">
+            <h2>⚠️ Upcoming Work</h2>
         </div>
 
         <div id="upcoming"></div>
+
     </div>
 
 </div>
@@ -346,8 +513,18 @@ textarea{
 
     <div class="section-title">
         <h2>📝 Assignments</h2>
-        <button class="add-btn" onclick="openModal('assignment')">+ Add</button>
+
+        <button class="add-btn"
+                onclick="openModal('assignment')">
+            + Add
+        </button>
     </div>
+
+    <input
+        class="search"
+        id="assignmentSearch"
+        placeholder="🔍 Search assignments..."
+        oninput="renderAssignments()">
 
     <div id="assignmentList"></div>
 
@@ -359,8 +536,18 @@ textarea{
 
     <div class="section-title">
         <h2>📚 Homework</h2>
-        <button class="add-btn" onclick="openModal('homework')">+ Add</button>
+
+        <button class="add-btn"
+                onclick="openModal('homework')">
+            + Add
+        </button>
     </div>
+
+    <input
+        class="search"
+        id="homeworkSearch"
+        placeholder="🔍 Search homework..."
+        oninput="renderHomework()">
 
     <div id="homeworkList"></div>
 
@@ -372,10 +559,130 @@ textarea{
 
     <div class="section-title">
         <h2>🎓 Attendance</h2>
-        <button class="add-btn" onclick="openModal('attendance')">+ Add</button>
+
+        <button class="add-btn"
+                onclick="openModal('attendance')">
+            + Add
+        </button>
     </div>
 
+    <div id="attendanceSummary"></div>
+
     <div id="attendanceList"></div>
+
+</div>
+
+
+<!-- CALENDAR -->
+<div id="calendarPage" class="page">
+
+    <div class="section-title">
+        <h2>📅 Calendar</h2>
+    </div>
+
+    <div class="calendar">
+
+        <div class="calendar-header">
+
+            <button onclick="changeMonth(-1)">
+                ◀
+            </button>
+
+            <b id="calendarTitle"></b>
+
+            <button onclick="changeMonth(1)">
+                ▶
+            </button>
+
+        </div>
+
+        <div class="calendar-grid"
+             id="calendarGrid"></div>
+
+    </div>
+
+    <div class="section">
+
+        <h2 style="margin-bottom:12px">
+            Events
+        </h2>
+
+        <div id="calendarEvents"></div>
+
+    </div>
+
+</div>
+
+
+<!-- SETTINGS -->
+<div id="settings" class="page">
+
+    <div class="section-title">
+        <h2>⚙️ Settings</h2>
+    </div>
+
+    <div class="settings-card">
+
+        <h3>🔔 Notifications</h3>
+
+        <p class="small">
+            Allow StudyMate to show deadline notifications
+            while the app is open.
+        </p>
+
+        <button onclick="requestNotifications()">
+            Enable Notifications
+        </button>
+
+    </div>
+
+    <div class="settings-card">
+
+        <h3>💾 Backup</h3>
+
+        <p class="small">
+            Save all your StudyMate data to a file.
+        </p>
+
+        <button onclick="backupData()">
+            Download Backup
+        </button>
+
+    </div>
+
+    <div class="settings-card">
+
+        <h3>♻️ Restore</h3>
+
+        <p class="small">
+            Restore your previous StudyMate data.
+        </p>
+
+        <input
+            type="file"
+            id="restoreFile"
+            accept=".json">
+
+        <button onclick="restoreData()">
+            Restore Data
+        </button>
+
+    </div>
+
+    <div class="settings-card">
+
+        <h3>🗑️ Reset</h3>
+
+        <p class="small">
+            Delete all StudyMate data from this device.
+        </p>
+
+        <button class="danger"
+                onclick="resetAll()">
+            Delete Everything
+        </button>
+
+    </div>
 
 </div>
 
@@ -385,20 +692,35 @@ textarea{
 <!-- NAVIGATION -->
 <nav>
 
-<button class="active" onclick="showPage('home',this)">
-<span>🏠</span>Home
+<button class="active"
+        onclick="showPage('home',this)">
+    <span>🏠</span>
+    Home
 </button>
 
 <button onclick="showPage('assignments',this)">
-<span>📝</span>Assignments
+    <span>📝</span>
+    Assignments
 </button>
 
 <button onclick="showPage('homework',this)">
-<span>📚</span>Homework
+    <span>📚</span>
+    Homework
 </button>
 
 <button onclick="showPage('attendance',this)">
-<span>🎓</span>Attendance
+    <span>🎓</span>
+    Attendance
+</button>
+
+<button onclick="showPage('calendarPage',this)">
+    <span>📅</span>
+    Calendar
+</button>
+
+<button onclick="showPage('settings',this)">
+    <span>⚙️</span>
+    More
 </button>
 
 </nav>
@@ -413,652 +735,1938 @@ textarea{
 
 <div id="formContent"></div>
 
-<button class="save-btn" onclick="saveData()">Save</button>
-<button class="close-btn" onclick="closeModal()">Cancel</button>
+<button class="save-btn"
+        onclick="saveData()">
+    Save
+</button>
+
+<button class="close-btn"
+        onclick="closeModal()">
+    Cancel
+</button>
 
 </div>
+
 </div>
 
 
 <script>
 
+/* =========================
+   DATA
+========================= */
+
 let assignments =
-JSON.parse(localStorage.getItem("assignments")) || [];
+JSON.parse(localStorage.getItem("studymate_assignments")) || [];
 
 let homework =
-JSON.parse(localStorage.getItem("homework")) || [];
+JSON.parse(localStorage.getItem("studymate_homework")) || [];
 
 let attendance =
-JSON.parse(localStorage.getItem("attendance")) || [];
+JSON.parse(localStorage.getItem("studymate_attendance")) || [];
 
 let currentType="";
+let editingId=null;
 
+let calendarDate=new Date();
+
+
+/* =========================
+   STORAGE
+========================= */
 
 function saveAll(){
 
-localStorage.setItem(
-"assignments",
-JSON.stringify(assignments)
-);
+    localStorage.setItem(
+        "studymate_assignments",
+        JSON.stringify(assignments)
+    );
 
-localStorage.setItem(
-"homework",
-JSON.stringify(homework)
-);
+    localStorage.setItem(
+        "studymate_homework",
+        JSON.stringify(homework)
+    );
 
-localStorage.setItem(
-"attendance",
-JSON.stringify(attendance)
-);
-
+    localStorage.setItem(
+        "studymate_attendance",
+        JSON.stringify(attendance)
+    );
 }
 
+
+/* =========================
+   NAVIGATION
+========================= */
 
 function showPage(page,button){
 
-document.querySelectorAll(".page")
-.forEach(p=>p.classList.remove("active"));
+    document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
 
-document.getElementById(page)
-.classList.add("active");
+    document.getElementById(page)
+    .classList.add("active");
 
-document.querySelectorAll("nav button")
-.forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll("nav button")
+    .forEach(b=>b.classList.remove("active"));
 
-button.classList.add("active");
+    button.classList.add("active");
 
-render();
-
-}
-
-
-function openModal(type){
-
-currentType=type;
-
-document.getElementById("modal")
-.classList.add("show");
-
-let title=document.getElementById("modalTitle");
-
-let form=document.getElementById("formContent");
-
-
-if(type==="assignment"){
-
-title.innerText="📝 Add Assignment";
-
-form.innerHTML=`
-
-<label>Subject</label>
-<input id="subject" placeholder="e.g. Communication Engineering">
-
-<label>Assignment Name</label>
-<input id="name" placeholder="e.g. Unit 3 Questions">
-
-<label>Given Date</label>
-<input id="givenDate" type="date">
-
-<label>Submission Date</label>
-<input id="dueDate" type="date">
-
-<label>Description</label>
-<textarea id="description"
-placeholder="Enter assignment details"></textarea>
-
-`;
+    render();
 
 }
 
 
-if(type==="homework"){
+/* =========================
+   MODAL
+========================= */
 
-title.innerText="📚 Add Homework";
+function openModal(type,id=null){
 
-form.innerHTML=`
+    currentType=type;
+    editingId=id;
 
-<label>Subject</label>
-<input id="subject" placeholder="e.g. Mathematics">
+    document.getElementById("modal")
+    .classList.add("show");
 
-<label>Homework</label>
-<textarea id="name"
-placeholder="What homework did teacher give?"></textarea>
+    let title=
+        document.getElementById("modalTitle");
 
-<label>Due Date</label>
-<input id="dueDate" type="date">
+    let form=
+        document.getElementById("formContent");
 
-`;
+    if(type==="assignment"){
 
-}
+        title.innerText=
+            id ? "✏️ Edit Assignment"
+               : "📝 Add Assignment";
+
+        let old=id?
+            assignments.find(x=>x.id===id):null;
+
+        form.innerHTML=`
+
+        <label>Subject</label>
+        <input id="subject"
+        value="${old?escapeHTML(old.subject):''}"
+        placeholder="e.g. Communication Engineering">
+
+        <label>Assignment Name</label>
+        <input id="name"
+        value="${old?escapeHTML(old.name):''}"
+        placeholder="e.g. Unit 3 Questions">
+
+        <label>Given Date</label>
+        <input id="givenDate"
+        type="date"
+        value="${old?.givenDate||today()}">
+
+        <label>Submission Date</label>
+        <input id="dueDate"
+        type="date"
+        value="${old?.dueDate||''}">
+
+        <label>Description</label>
+        <textarea id="description"
+        placeholder="Enter assignment details">${old?.description||''}</textarea>
+
+        `;
+
+    }
 
 
-if(type==="attendance"){
+    if(type==="homework"){
 
-title.innerText="🎓 Add Lecture";
+        title.innerText=
+            id ? "✏️ Edit Homework"
+               : "📚 Add Homework";
 
-form.innerHTML=`
+        let old=id?
+            homework.find(x=>x.id===id):null;
 
-<label>Subject</label>
-<input id="subject" placeholder="e.g. Digital Electronics">
+        form.innerHTML=`
 
-<label>Lecture Date</label>
-<input id="lectureDate" type="date">
+        <label>Subject</label>
+        <input id="subject"
+        value="${old?escapeHTML(old.subject):''}"
+        placeholder="e.g. Mathematics">
 
-`;
+        <label>Homework</label>
+        <textarea id="name"
+        placeholder="What homework did teacher give?">${old?.name||''}</textarea>
 
-}
+        <label>Due Date</label>
+        <input id="dueDate"
+        type="date"
+        value="${old?.dueDate||''}">
+
+        `;
+
+    }
+
+
+    if(type==="attendance"){
+
+        title.innerText=
+            id ? "✏️ Edit Lecture"
+               : "🎓 Add Lecture";
+
+        let old=id?
+            attendance.find(x=>x.id===id):null;
+
+        form.innerHTML=`
+
+        <label>Subject</label>
+        <input id="subject"
+        value="${old?escapeHTML(old.subject):''}"
+        placeholder="e.g. Digital Electronics">
+
+        <label>Lecture Date</label>
+        <input id="lectureDate"
+        type="date"
+        value="${old?.date||today()}">
+
+        <label>Status</label>
+
+        <select id="lectureStatus">
+
+            <option value="present"
+            ${old?.status==="present"?"selected":""}>
+            Present
+            </option>
+
+            <option value="absent"
+            ${old?.status==="absent"?"selected":""}>
+            Absent
+            </option>
+
+        </select>
+
+        `;
+
+    }
 
 }
 
 
 function closeModal(){
 
-document.getElementById("modal")
-.classList.remove("show");
+    document.getElementById("modal")
+    .classList.remove("show");
+
+    editingId=null;
 
 }
 
+
+/* =========================
+   SAVE
+========================= */
 
 function saveData(){
 
-let subject=document.getElementById("subject").value;
+    let subject=
+        document.getElementById("subject").value.trim();
 
-if(!subject){
+    if(!subject){
 
-alert("Please enter subject");
+        alert("Please enter subject.");
+        return;
 
-return;
+    }
+
+
+    if(currentType==="assignment"){
+
+        let name=
+            document.getElementById("name")
+            .value.trim();
+
+        let dueDate=
+            document.getElementById("dueDate")
+            .value;
+
+        if(!name||!dueDate){
+
+            alert("Please fill assignment name and due date.");
+            return;
+
+        }
+
+        if(editingId){
+
+            let item=
+                assignments.find(x=>x.id===editingId);
+
+            item.subject=subject;
+            item.name=name;
+            item.givenDate=
+                document.getElementById("givenDate").value;
+            item.dueDate=dueDate;
+            item.description=
+                document.getElementById("description").value;
+
+        }else{
+
+            assignments.push({
+
+                id:Date.now(),
+                subject:subject,
+                name:name,
+
+                givenDate:
+                    document.getElementById("givenDate").value,
+
+                dueDate:dueDate,
+
+                description:
+                    document.getElementById("description").value,
+
+                completed:false
+
+            });
+
+        }
+
+    }
+
+
+    if(currentType==="homework"){
+
+        let name=
+            document.getElementById("name")
+            .value.trim();
+
+        let dueDate=
+            document.getElementById("dueDate").value;
+
+        if(!name||!dueDate){
+
+            alert("Please fill homework and due date.");
+            return;
+
+        }
+
+        if(editingId){
+
+            let item=
+                homework.find(x=>x.id===editingId);
+
+            item.subject=subject;
+            item.name=name;
+            item.dueDate=dueDate;
+
+        }else{
+
+            homework.push({
+
+                id:Date.now(),
+                subject:subject,
+                name:name,
+                dueDate:dueDate,
+                completed:false
+
+            });
+
+        }
+
+    }
+
+
+    if(currentType==="attendance"){
+
+        let date=
+            document.getElementById("lectureDate").value;
+
+        let status=
+            document.getElementById("lectureStatus").value;
+
+        if(!date){
+
+            alert("Please select lecture date.");
+            return;
+
+        }
+
+        if(editingId){
+
+            let item=
+                attendance.find(x=>x.id===editingId);
+
+            item.subject=subject;
+            item.date=date;
+            item.status=status;
+
+        }else{
+
+            attendance.push({
+
+                id:Date.now(),
+                subject:subject,
+                date:date,
+                status:status
+
+            });
+
+        }
+
+    }
+
+
+    saveAll();
+    closeModal();
+    render();
 
 }
 
 
-if(currentType==="assignment"){
-
-let name=document.getElementById("name").value;
-
-let dueDate=document.getElementById("dueDate").value;
-
-if(!name || !dueDate){
-
-alert("Please fill required fields");
-
-return;
-
-}
-
-assignments.push({
-
-id:Date.now(),
-
-subject:subject,
-
-name:name,
-
-givenDate:document.getElementById("givenDate").value,
-
-dueDate:dueDate,
-
-description:document.getElementById("description").value,
-
-completed:false
-
-});
-
-}
-
-
-if(currentType==="homework"){
-
-let name=document.getElementById("name").value;
-
-let dueDate=document.getElementById("dueDate").value;
-
-if(!name || !dueDate){
-
-alert("Please fill required fields");
-
-return;
-
-}
-
-homework.push({
-
-id:Date.now(),
-
-subject:subject,
-
-name:name,
-
-dueDate:dueDate,
-
-completed:false
-
-});
-
-}
-
-
-if(currentType==="attendance"){
-
-let lectureDate=document.getElementById("lectureDate").value;
-
-attendance.push({
-
-id:Date.now(),
-
-subject:subject,
-
-date:lectureDate,
-
-status:"present"
-
-});
-
-}
-
-
-saveAll();
-
-closeModal();
-
-render();
-
-}
-
-
-function toggleAssignment(id){
-
-let item=assignments.find(x=>x.id===id);
-
-item.completed=!item.completed;
-
-saveAll();
-
-render();
-
-}
-
-
-function toggleHomework(id){
-
-let item=homework.find(x=>x.id===id);
-
-item.completed=!item.completed;
-
-saveAll();
-
-render();
-
-}
-
+/* =========================
+   DELETE
+========================= */
 
 function deleteAssignment(id){
 
-assignments=
-assignments.filter(x=>x.id!==id);
+    if(!confirm("Delete this assignment?"))
+        return;
 
-saveAll();
+    assignments=
+        assignments.filter(x=>x.id!==id);
 
-render();
+    saveAll();
+    render();
 
 }
 
 
 function deleteHomework(id){
 
-homework=
-homework.filter(x=>x.id!==id);
+    if(!confirm("Delete this homework?"))
+        return;
 
-saveAll();
+    homework=
+        homework.filter(x=>x.id!==id);
 
-render();
+    saveAll();
+    render();
 
 }
 
 
 function deleteAttendance(id){
 
-attendance=
-attendance.filter(x=>x.id!==id);
+    if(!confirm("Delete this lecture?"))
+        return;
 
-saveAll();
+    attendance=
+        attendance.filter(x=>x.id!==id);
 
-render();
+    saveAll();
+    render();
 
 }
 
 
+/* =========================
+   COMPLETE
+========================= */
+
+function toggleAssignment(id){
+
+    let item=
+        assignments.find(x=>x.id===id);
+
+    item.completed=!item.completed;
+
+    saveAll();
+    render();
+
+}
+
+
+function toggleHomework(id){
+
+    let item=
+        homework.find(x=>x.id===id);
+
+    item.completed=!item.completed;
+
+    saveAll();
+    render();
+
+}
+
+
+/* =========================
+   ATTENDANCE
+========================= */
+
 function changeAttendance(id,status){
 
-let item=attendance.find(x=>x.id===id);
+    let item=
+        attendance.find(x=>x.id===id);
 
-item.status=status;
+    item.status=status;
 
-saveAll();
+    saveAll();
+    render();
 
-render();
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+function today(){
+
+    let d = new Date();
+
+    let y = d.getFullYear();
+
+    let m = String(d.getMonth()+1)
+        .padStart(2,"0");
+
+    let day = String(d.getDate())
+        .padStart(2,"0");
+
+    return `${y}-${m}-${day}`;
 
 }
 
 
 function formatDate(date){
 
-if(!date)return "No date";
+    if(!date) return "No date";
 
-return new Date(date+"T00:00:00")
-.toLocaleDateString("en-IN",{
-day:"numeric",
-month:"short",
-year:"numeric"
-});
+    return new Date(date+"T00:00:00")
+    .toLocaleDateString("en-IN",{
+        day:"numeric",
+        month:"short",
+        year:"numeric"
+    });
 
 }
 
+
+function dateDifference(date){
+
+    let d1 =
+        new Date(today()+"T00:00:00");
+
+    let d2 =
+        new Date(date+"T00:00:00");
+
+    return Math.round(
+        (d2-d1)/(1000*60*60*24)
+    );
+
+}
+
+
+function deadlineClass(date){
+
+    let diff = dateDifference(date);
+
+    if(diff < 0) return "overdue";
+
+    if(diff === 0) return "today";
+
+    return "pending";
+
+}
+
+
+function deadlineText(date){
+
+    let diff = dateDifference(date);
+
+    if(diff < 0)
+        return "⚠️ Overdue";
+
+    if(diff === 0)
+        return "🔥 Due Today";
+
+    if(diff === 1)
+        return "⏰ Due Tomorrow";
+
+    return `Due in ${diff} days`;
+
+}
+
+
+/* =========================
+   ASSIGNMENTS
+========================= */
 
 function renderAssignments(){
 
-let list=document.getElementById("assignmentList");
+    let list =
+        document.getElementById("assignmentList");
 
-if(assignments.length===0){
+    let search =
+        (document.getElementById("assignmentSearch")?.value || "")
+        .toLowerCase();
 
-list.innerHTML=
-`<div class="empty">
-No assignments yet.<br>
-Tap <b>+ Add</b> to record one.
-</div>`;
+    let data =
+        assignments
+        .filter(a =>
+            a.name.toLowerCase().includes(search) ||
+            a.subject.toLowerCase().includes(search)
+        )
+        .sort((a,b) =>
+            a.dueDate.localeCompare(b.dueDate)
+        );
 
-return;
+
+    if(data.length === 0){
+
+        list.innerHTML =
+        `<div class="empty">
+        No assignments found.
+        </div>`;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        data.map(a => `
+
+        <div class="card">
+
+        <button class="delete-btn"
+        onclick="deleteAssignment(${a.id})">
+        🗑
+        </button>
+
+        <h3>${escapeHTML(a.name)}</h3>
+
+        <p>📘 ${escapeHTML(a.subject)}</p>
+
+        <p>📅 Due: ${formatDate(a.dueDate)}</p>
+
+        ${a.givenDate ?
+        `<p>🗓️ Given: ${formatDate(a.givenDate)}</p>`
+        :""}
+
+        ${a.description ?
+        `<p>📌 ${escapeHTML(a.description)}</p>`
+        :""}
+
+        <span class="badge ${
+            a.completed
+            ? "completed"
+            : deadlineClass(a.dueDate)
+        }">
+
+        ${
+            a.completed
+            ? "✓ Completed"
+            : deadlineText(a.dueDate)
+        }
+
+        </span>
+
+        <br>
+
+        <button class="edit-btn"
+        onclick="openModal('assignment',${a.id})">
+        ✏️ Edit
+        </button>
+
+        <button class="complete-btn"
+        onclick="toggleAssignment(${a.id})">
+
+        ${
+            a.completed
+            ? "↩ Mark Pending"
+            : "✓ Complete"
+        }
+
+        </button>
+
+        </div>
+
+        `).join("");
 
 }
 
-list.innerHTML=
-assignments
-.sort((a,b)=>a.dueDate.localeCompare(b.dueDate))
-.map(a=>`
 
-<div class="card">
-
-<button class="delete"
-onclick="deleteAssignment(${a.id})">
-🗑
-</button>
-
-<h3>${escapeHTML(a.name)}</h3>
-
-<p>📘 ${escapeHTML(a.subject)}</p>
-
-<p>📅 Due: ${formatDate(a.dueDate)}</p>
-
-${a.description?
-`<p>📌 ${escapeHTML(a.description)}</p>`:""}
-
-<span
-class="badge ${a.completed?'completed':'pending'}">
-${a.completed?'✓ Completed':'⏳ Pending'}
-</span>
-
-<br><br>
-
-<button class="add-btn"
-onclick="toggleAssignment(${a.id})">
-${a.completed?'Mark Pending':'Mark Completed'}
-</button>
-
-</div>
-
-`).join("");
-
-}
-
+/* =========================
+   HOMEWORK
+========================= */
 
 function renderHomework(){
 
-let list=document.getElementById("homeworkList");
+    let list =
+        document.getElementById("homeworkList");
 
-if(homework.length===0){
+    let search =
+        (document.getElementById("homeworkSearch")?.value || "")
+        .toLowerCase();
 
-list.innerHTML=
-`<div class="empty">
-No homework recorded yet.
-</div>`;
+    let data =
+        homework
+        .filter(h =>
+            h.name.toLowerCase().includes(search) ||
+            h.subject.toLowerCase().includes(search)
+        )
+        .sort((a,b) =>
+            a.dueDate.localeCompare(b.dueDate)
+        );
 
-return;
+
+    if(data.length === 0){
+
+        list.innerHTML =
+        `<div class="empty">
+        No homework found.
+        </div>`;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        data.map(h => `
+
+        <div class="card">
+
+        <button class="delete-btn"
+        onclick="deleteHomework(${h.id})">
+        🗑
+        </button>
+
+        <h3>${escapeHTML(h.name)}</h3>
+
+        <p>📘 ${escapeHTML(h.subject)}</p>
+
+        <p>📅 Due: ${formatDate(h.dueDate)}</p>
+
+        <span class="badge ${
+            h.completed
+            ? "completed"
+            : deadlineClass(h.dueDate)
+        }">
+
+        ${
+            h.completed
+            ? "✓ Completed"
+            : deadlineText(h.dueDate)
+        }
+
+        </span>
+
+        <br>
+
+        <button class="edit-btn"
+        onclick="openModal('homework',${h.id})">
+        ✏️ Edit
+        </button>
+
+        <button class="complete-btn"
+        onclick="toggleHomework(${h.id})">
+
+        ${
+            h.completed
+            ? "↩ Mark Pending"
+            : "✓ Complete"
+        }
+
+        </button>
+
+        </div>
+
+        `).join("");
 
 }
 
-list.innerHTML=
-homework
-.sort((a,b)=>a.dueDate.localeCompare(b.dueDate))
-.map(h=>`
 
-<div class="card">
+/* =========================
+   ATTENDANCE SUMMARY
+========================= */
 
-<button class="delete"
-onclick="deleteHomework(${h.id})">
-🗑
-</button>
+function renderAttendanceSummary(){
 
-<h3>${escapeHTML(h.name)}</h3>
+    let box =
+        document.getElementById("attendanceSummary");
 
-<p>📘 ${escapeHTML(h.subject)}</p>
+    let subjects = [...new Set(
+        attendance.map(a => a.subject)
+    )];
 
-<p>📅 Due: ${formatDate(h.dueDate)}</p>
 
-<span class="badge ${h.completed?'completed':'pending'}">
-${h.completed?'✓ Completed':'⏳ Pending'}
-</span>
+    if(subjects.length === 0){
 
-<br><br>
+        box.innerHTML = "";
 
-<button class="add-btn"
-onclick="toggleHomework(${h.id})">
-${h.completed?'Mark Pending':'Mark Completed'}
-</button>
+        return;
 
-</div>
+    }
 
-`).join("");
+
+    box.innerHTML =
+        subjects.map(subject => {
+
+            let records =
+                attendance.filter(
+                    a => a.subject === subject
+                );
+
+            let total = records.length;
+
+            let present =
+                records.filter(
+                    a => a.status === "present"
+                ).length;
+
+            let percent =
+                total === 0
+                ? 0
+                : Math.round((present / total) * 100);
+
+
+            return `
+
+            <div class="card subject-card">
+
+                <h3>📘 ${escapeHTML(subject)}</h3>
+
+                <p>
+                    ${present} Present /
+                    ${total} Lectures
+                </p>
+
+                <b>${percent}%</b>
+
+                <div class="progress">
+
+                    <div class="progress-bar"
+                         style="width:${percent}%">
+                    </div>
+
+                </div>
+
+            </div>
+
+            `;
+
+        }).join("");
 
 }
 
+
+/* =========================
+   ATTENDANCE LIST
+========================= */
 
 function renderAttendance(){
 
-let list=document.getElementById("attendanceList");
+    let list =
+        document.getElementById("attendanceList");
 
-if(attendance.length===0){
+    let data =
+        [...attendance]
+        .sort((a,b) =>
+            b.date.localeCompare(a.date)
+        );
 
-list.innerHTML=
-`<div class="empty">
-No lectures recorded yet.
-</div>`;
 
-return;
+    if(data.length === 0){
+
+        list.innerHTML =
+        `<div class="empty">
+            No lectures recorded yet.
+        </div>`;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        data.map(a => `
+
+        <div class="card">
+
+            <button class="delete-btn"
+                    onclick="deleteAttendance(${a.id})">
+                🗑
+            </button>
+
+            <div class="attendance-row">
+
+                <div>
+
+                    <h3>
+                        ${escapeHTML(a.subject)}
+                    </h3>
+
+                    <p>
+                        📅 ${formatDate(a.date)}
+                    </p>
+
+                    <span class="badge ${
+                        a.status === "present"
+                        ? "completed"
+                        : "overdue"
+                    }">
+
+                    ${
+                        a.status === "present"
+                        ? "✓ Present"
+                        : "✕ Absent"
+                    }
+
+                    </span>
+
+                </div>
+
+
+                <div class="attendance-actions">
+
+                    <button class="present"
+                            onclick="changeAttendance(${a.id},'present')">
+                        ✓
+                    </button>
+
+                    <button class="absent"
+                            onclick="changeAttendance(${a.id},'absent')">
+                        ✕
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <br>
+
+
+            <button class="edit-btn"
+                    onclick="openModal('attendance',${a.id})">
+                ✏️ Edit
+            </button>
+
+        </div>
+
+        `).join("");
 
 }
 
-list.innerHTML=
-attendance
-.sort((a,b)=>b.date.localeCompare(a.date))
-.map(a=>`
 
-<div class="card">
-
-<button class="delete"
-onclick="deleteAttendance(${a.id})">
-🗑
-</button>
-
-<div class="attendance-box">
-
-<div>
-
-<h3>${escapeHTML(a.subject)}</h3>
-
-<p>📅 ${formatDate(a.date)}</p>
-
-</div>
-
-<div class="attendance-actions">
-
-<button class="present"
-onclick="changeAttendance(${a.id},'present')">
-✓
-</button>
-
-<button class="absent"
-onclick="changeAttendance(${a.id},'absent')">
-✕
-</button>
-
-</div>
-
-</div>
-
-<p>
-Status:
-<b>${a.status==="present"?
-"Present":"Absent"}</b>
-</p>
-
-</div>
-
-`).join("");
-
-}
-
+/* =========================
+   DASHBOARD
+========================= */
 
 function renderStats(){
 
-let total=attendance.length;
+    let total =
+        attendance.length;
 
-let present=attendance
-.filter(a=>a.status==="present")
-.length;
 
-let percentage=
-total===0?0:Math.round((present/total)*100);
+    let present =
+        attendance.filter(
+            a => a.status === "present"
+        ).length;
 
-document.getElementById("assignmentCount")
-.innerText=assignments.length;
 
-document.getElementById("homeworkCount")
-.innerText=homework.length;
+    let percentage =
+        total === 0
+        ? 0
+        : Math.round(
+            (present / total) * 100
+        );
 
-let pending=
-assignments.filter(a=>!a.completed).length+
-homework.filter(a=>!a.completed).length;
 
-document.getElementById("pendingCount")
-.innerText=pending;
+    document.getElementById(
+        "assignmentCount"
+    ).innerText =
+        assignments.length;
 
-document.getElementById("attendancePercent")
-.innerText=percentage+"%";
+
+    document.getElementById(
+        "homeworkCount"
+    ).innerText =
+        homework.length;
+
+
+    let pending =
+        assignments.filter(
+            a => !a.completed
+        ).length
+        +
+        homework.filter(
+            h => !h.completed
+        ).length;
+
+
+    document.getElementById(
+        "pendingCount"
+    ).innerText =
+        pending;
+
+
+    document.getElementById(
+        "attendancePercent"
+    ).innerText =
+        percentage + "%";
 
 }
 
+
+/* =========================
+   UPCOMING WORK
+========================= */
 
 function renderUpcoming(){
 
-let box=document.getElementById("upcoming");
+    let box =
+        document.getElementById("upcoming");
 
-let items=[
 
-...assignments
-.filter(a=>!a.completed)
-.map(a=>({
-name:a.name,
-subject:a.subject,
-date:a.dueDate,
-type:"Assignment"
-})),
+    let items = [
 
-...homework
-.filter(a=>!a.completed)
-.map(h=>({
-name:h.name,
-subject:h.subject,
-date:h.dueDate,
-type:"Homework"
-}))
+        ...assignments
+        .filter(a => !a.completed)
+        .map(a => ({
 
-];
+            id: a.id,
+            name: a.name,
+            subject: a.subject,
+            date: a.dueDate,
+            type: "Assignment"
 
-items.sort((a,b)=>
-a.date.localeCompare(b.date)
-);
+        })),
 
-items=items.slice(0,5);
 
-if(items.length===0){
+        ...homework
+        .filter(h => !h.completed)
+        .map(h => ({
 
-box.innerHTML=
-`<div class="empty">
-🎉 No pending work!
-</div>`;
+            id: h.id,
+            name: h.name,
+            subject: h.subject,
+            date: h.dueDate,
+            type: "Homework"
 
-return;
+        }))
+
+    ];
+
+
+    items.sort(
+        (a,b) =>
+        a.date.localeCompare(b.date)
+    );
+
+
+    items =
+        items.slice(0,5);
+
+
+    if(items.length === 0){
+
+        box.innerHTML =
+        `<div class="empty">
+            🎉 No pending work!
+        </div>`;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        items.map(i => `
+
+        <div class="card">
+
+            <h3>
+                ${escapeHTML(i.name)}
+            </h3>
+
+            <p>
+                📘 ${escapeHTML(i.subject)}
+            </p>
+
+            <p>
+                📅 ${formatDate(i.date)}
+            </p>
+
+            <span class="badge ${
+                deadlineClass(i.date)
+            }">
+
+                ${i.type}
+                •
+                ${deadlineText(i.date)}
+
+            </span>
+
+        </div>
+
+        `).join("");
 
 }
 
-box.innerHTML=
-items.map(i=>`
 
-<div class="card">
+/* =========================
+   TODAY'S LECTURES
+========================= */
 
-<h3>${escapeHTML(i.name)}</h3>
+function renderTodayLectures(){
 
-<p>📘 ${escapeHTML(i.subject)}</p>
+    let box =
+        document.getElementById(
+            "todayLectures"
+        );
 
-<p>📅 ${formatDate(i.date)}</p>
 
-<span class="badge pending">
-${i.type}
-</span>
+    let records =
+        attendance.filter(
+            a => a.date === today()
+        );
 
-</div>
 
-`).join("");
+    if(records.length === 0){
+
+        box.innerHTML =
+        `<div class="empty">
+            No lectures recorded for today.
+        </div>`;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        records.map(a => `
+
+        <div class="card">
+
+            <button class="delete-btn"
+                    onclick="deleteAttendance(${a.id})">
+                🗑
+            </button>
+
+
+            <h3>
+                📘 ${escapeHTML(a.subject)}
+            </h3>
+
+
+            <p>
+                🎓 Today's lecture
+            </p>
+
+
+            <span class="badge ${
+                a.status === "present"
+                ? "completed"
+                : "overdue"
+            }">
+
+            ${
+                a.status === "present"
+                ? "✓ Present"
+                : "✕ Absent"
+            }
+
+            </span>
+
+        </div>
+
+        `).join("");
 
 }
 
+
+/* =========================
+   ALERTS
+========================= */
+
+function renderAlerts(){
+
+    let box =
+        document.getElementById(
+            "alerts"
+        );
+
+
+    let alerts = [];
+
+
+    assignments
+    .filter(a => !a.completed)
+    .forEach(a => {
+
+        let diff =
+            dateDifference(
+                a.dueDate
+            );
+
+
+        if(diff <= 2){
+
+            alerts.push({
+
+                text:
+                `📝 ${a.name} — ${
+                    deadlineText(a.dueDate)
+                }`
+
+            });
+
+        }
+
+    });
+
+
+    homework
+    .filter(h => !h.completed)
+    .forEach(h => {
+
+        let diff =
+            dateDifference(
+                h.dueDate
+            );
+
+
+        if(diff <= 2){
+
+            alerts.push({
+
+                text:
+                `📚 ${h.name} — ${
+                    deadlineText(h.dueDate)
+                }`
+
+            });
+
+        }
+
+    });
+
+
+    if(alerts.length === 0){
+
+        box.innerHTML =
+        `<div class="card">
+            ✅ No urgent deadlines.
+        </div>`;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        alerts
+        .slice(0,5)
+        .map(a =>
+            `<div class="alert">
+                ${escapeHTML(a.text)}
+            </div>`
+        )
+        .join("");
+
+}
+
+
+/* =========================
+   CALENDAR
+========================= */
+
+function changeMonth(amount){
+
+    calendarDate.setMonth(
+        calendarDate.getMonth() + amount
+    );
+
+
+    renderCalendar();
+
+}
+
+
+function renderCalendar(){
+
+    let grid =
+        document.getElementById(
+            "calendarGrid"
+        );
+
+
+    let title =
+        document.getElementById(
+            "calendarTitle"
+        );
+
+
+    let year =
+        calendarDate.getFullYear();
+
+
+    let month =
+        calendarDate.getMonth();
+
+
+    title.innerText =
+        calendarDate.toLocaleDateString(
+            "en-IN",
+            {
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+
+    let firstDay =
+        new Date(
+            year,
+            month,
+            1
+        ).getDay();
+
+
+    let days =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    let html = "";
+
+
+    [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+    ].forEach(d => {
+
+        html +=
+        `<div class="day-name">
+            ${d}
+        </div>`;
+
+    });
+
+
+    for(
+        let i = 0;
+        i < firstDay;
+        i++
+    ){
+
+        html += `<div></div>`;
+
+    }
+
+
+    for(
+        let d = 1;
+        d <= days;
+        d++
+    ){
+
+        let dateString =
+            `${year}-${String(month+1)
+            .padStart(2,"0")}-${String(d)
+            .padStart(2,"0")}`;
+
+
+        let hasEvent =
+            assignments.some(
+                a => a.dueDate === dateString
+            )
+            ||
+            homework.some(
+                h => h.dueDate === dateString
+            )
+            ||
+            attendance.some(
+                a => a.date === dateString
+            );
+
+
+        let isToday =
+            dateString === today();
+
+
+        html += `
+
+        <div class="day
+        ${hasEvent ? "has-event" : ""}
+        ${isToday ? "selected" : ""}"
+
+        onclick="
+            showCalendarEvents(
+                '${dateString}'
+            )
+        ">
+
+            ${d}
+
+            ${
+                hasEvent
+                ? `<div class="dot"></div>`
+                : ""
+            }
+
+        </div>
+
+        `;
+
+    }
+
+
+    grid.innerHTML =
+        html;
+
+
+    showCalendarEvents(
+        today()
+    );
+
+}
+
+
+function showCalendarEvents(date){
+
+    let box =
+        document.getElementById(
+            "calendarEvents"
+        );
+
+
+    let events = [];
+
+
+    assignments
+    .filter(
+        a => a.dueDate === date
+    )
+    .forEach(a => {
+
+        events.push({
+
+            type: "📝 Assignment",
+
+            name: a.name,
+
+            subject: a.subject
+
+        });
+
+    });
+
+
+    homework
+    .filter(
+        h => h.dueDate === date
+    )
+    .forEach(h => {
+
+        events.push({
+
+            type: "📚 Homework",
+
+            name: h.name,
+
+            subject: h.subject
+
+        });
+
+    });
+
+
+    attendance
+    .filter(
+        a => a.date === date
+    )
+    .forEach(a => {
+
+        events.push({
+
+            type: "🎓 Lecture",
+
+            name: a.subject,
+
+            subject:
+                a.status === "present"
+                ? "Present"
+                : "Absent"
+
+        });
+
+    });
+
+
+    if(events.length === 0){
+
+        box.innerHTML =
+        `<div class="empty">
+
+            No events on
+            ${formatDate(date)}.
+
+        </div>`;
+
+        return;
+
+    }
+
+
+    box.innerHTML =
+        `<p class="small"
+            style="margin-bottom:10px">
+
+            ${formatDate(date)}
+
+        </p>`
+        +
+
+        events.map(e => `
+
+        <div class="card">
+
+            <h3>
+                ${e.type}
+            </h3>
+
+            <p>
+                📌 ${escapeHTML(e.name)}
+            </p>
+
+            <p>
+                ℹ️ ${escapeHTML(e.subject)}
+            </p>
+
+        </div>
+
+        `).join("");
+
+}
+
+
+/* =========================
+   NOTIFICATIONS
+========================= */
+
+function requestNotifications(){
+
+    if(!("Notification" in window)){
+
+        alert(
+            "Notifications are not supported by this browser."
+        );
+
+        return;
+
+    }
+
+
+    Notification.requestPermission()
+    .then(permission => {
+
+        if(permission === "granted"){
+
+            alert(
+                "🔔 Notifications enabled!"
+            );
+
+            checkNotifications();
+
+        }
+        else{
+
+            alert(
+                "Notification permission was not granted."
+            );
+
+        }
+
+    });
+
+}
+
+
+function checkNotifications(){
+
+    if(!("Notification" in window))
+        return;
+
+
+    if(
+        Notification.permission !==
+        "granted"
+    )
+        return;
+
+
+    let items = [
+
+        ...assignments
+        .filter(a => !a.completed)
+        .map(a => ({
+
+            name: a.name,
+            date: a.dueDate,
+            type: "Assignment"
+
+        })),
+
+
+        ...homework
+        .filter(h => !h.completed)
+        .map(h => ({
+
+            name: h.name,
+            date: h.dueDate,
+            type: "Homework"
+
+        }))
+
+    ];
+
+
+    items.forEach(item => {
+
+        let diff =
+            dateDifference(
+                item.date
+            );
+
+
+        if(
+            diff >= 0 &&
+            diff <= 1
+        ){
+
+            let key =
+                "notification_" +
+                item.type +
+                "_" +
+                item.name +
+                "_" +
+                item.date;
+
+
+            if(
+                !localStorage.getItem(key)
+            ){
+
+                new Notification(
+                    "📚 StudyMate Reminder",
+                    {
+
+                        body:
+                        `${item.type}: ${
+                            item.name
+                        } — ${
+                            deadlineText(
+                                item.date
+                            )
+                        }`
+
+                    }
+                );
+
+
+                localStorage.setItem(
+                    key,
+                    "true"
+                );
+
+            }
+
+        }
+
+    });
+
+}
+
+
+/* =========================
+   BACKUP
+========================= */
+
+function backupData(){
+
+    let data = {
+
+        app: "StudyMate",
+
+        version: "2.0",
+
+        exportedAt:
+            new Date().toISOString(),
+
+        assignments:
+            assignments,
+
+        homework:
+            homework,
+
+        attendance:
+            attendance
+
+    };
+
+
+    let blob =
+        new Blob(
+            [
+                JSON.stringify(
+                    data,
+                    null,
+                    2
+                )
+            ],
+            {
+                type:
+                "application/json"
+            }
+        );
+
+
+    let url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    let a =
+        document.createElement(
+            "a"
+        );
+
+
+    a.href = url;
+
+
+    a.download =
+        "StudyMate_Backup.json";
+
+
+    a.click();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+}
+
+
+/* =========================
+   RESTORE
+========================= */
+
+function restoreData(){
+
+    let file =
+        document.getElementById(
+            "restoreFile"
+        ).files[0];
+
+
+    if(!file){
+
+        alert(
+            "Please select a backup file."
+        );
+
+        return;
+
+    }
+
+
+    let reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(e){
+
+        try{
+
+            let data =
+                JSON.parse(
+                    e.target.result
+                );
+
+
+            if(
+                !data.assignments ||
+                !data.homework ||
+                !data.attendance
+            ){
+
+                throw new Error();
+
+            }
+
+
+            if(!confirm(
+                "Restore backup? Existing data will be replaced."
+            )) return;
+
+
+            assignments =
+                data.assignments;
+
+
+            homework =
+                data.homework;
+
+
+            attendance =
+                data.attendance;
+
+
+            saveAll();
+
+
+            render();
+
+
+            alert(
+                "✅ Backup restored successfully!"
+            );
+
+
+        }
+        catch{
+
+            alert(
+                "❌ Invalid StudyMate backup file."
+            );
+
+        }
+
+    };
+
+
+    reader.readAsText(
+        file
+    );
+
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetAll(){
+
+    if(!confirm(
+        "WARNING: Delete ALL StudyMate data?"
+    )) return;
+
+
+    assignments = [];
+
+    homework = [];
+
+    attendance = [];
+
+
+    saveAll();
+
+
+    localStorage.clear();
+
+
+    render();
+
+
+    alert(
+        "All data has been deleted."
+    );
+
+}
+
+
+/* =========================
+   SECURITY
+========================= */
 
 function escapeHTML(text){
 
-return String(text||"")
-.replace(/[&<>"']/g,function(m){
+    return String(
+        text || ""
+    )
+    .replace(
+        /[&<>"']/g,
+        function(m){
 
-return {
-'&':'&amp;',
-'<':'&lt;',
-'>':'&gt;',
-'"':'&quot;',
-"'":'&#039;'
-}[m];
+            return {
 
-});
+                '&':'&amp;',
+                '<':'&lt;',
+                '>':'&gt;',
+                '"':'&quot;',
+                "'":'&#039;'
+
+            }[m];
+
+        }
+    );
 
 }
 
 
+/* =========================
+   RENDER
+========================= */
+
 function render(){
 
-renderAssignments();
+    renderAssignments();
 
-renderHomework();
+    renderHomework();
 
-renderAttendance();
+    renderAttendance();
 
-renderStats();
+    renderAttendanceSummary();
 
-renderUpcoming();
+    renderStats();
+
+    renderUpcoming();
+
+    renderTodayLectures();
+
+    renderAlerts();
+
+    renderCalendar();
+
+    checkNotifications();
 
 }
 
 
 render();
 
+
+/* Check reminders every minute */
+
+setInterval(
+    checkNotifications,
+    60000
+);
+
 </script>
 
 </body>
-  </html>
+</html>
