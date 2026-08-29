@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2563eb">
+<title>StudyMate</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#172033;
+    padding-bottom:80px;
+}
+
+header{
+    background:#2563eb;
+    color:white;
+    padding:22px 18px;
+    border-radius:0 0 25px 25px;
+}
+
+header h1{
+    font-size:28px;
+}
+
+header p{
+    margin-top:5px;
+    opacity:.9;
+}
+
+.container{
+    padding:18px;
+    max-width:700px;
+    margin:auto;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:-5px;
+}
+
+.stat{
+    background:white;
+    padding:18px;
+    border-radius:16px;
+    box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
+
+.stat h2{
+    font-size:25px;
+    color:#2563eb;
+}
+
+.stat p{
+    color:#666;
+    font-size:13px;
+    margin-top:4px;
+}
+
+.section{
+    margin-top:25px;
+}
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.section-title h2{
+    font-size:20px;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+}
+
+.add-btn{
+    background:#2563eb;
+    color:white;
+    padding:10px 15px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.card{
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    margin-bottom:10px;
+    box-shadow:0 3px 10px rgba(0,0,0,.05);
+}
+
+.card h3{
+    font-size:16px;
+    margin-bottom:6px;
+}
+
+.card p{
+    color:#666;
+    font-size:13px;
+    margin:4px 0;
+}
+
+.badge{
+    display:inline-block;
+    margin-top:8px;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.pending{
+    background:#fff0d5;
+    color:#b76b00;
+}
+
+.completed{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.delete{
+    float:right;
+    background:#fee2e2;
+    color:#dc2626;
+    padding:6px 9px;
+    border-radius:8px;
+}
+
+.empty{
+    text-align:center;
+    color:#888;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+}
+
+nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:white;
+    height:68px;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    box-shadow:0 -3px 15px rgba(0,0,0,.1);
+    z-index:10;
+}
+
+nav button{
+    background:none;
+    color:#777;
+    font-size:11px;
+}
+
+nav button span{
+    display:block;
+    font-size:22px;
+    margin-bottom:2px;
+}
+
+nav button.active{
+    color:#2563eb;
+    font-weight:bold;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:20;
+    align-items:flex-end;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    width:100%;
+    max-width:700px;
+    margin:auto;
+    padding:22px;
+    border-radius:22px 22px 0 0;
+    max-height:90vh;
+    overflow:auto;
+}
+
+.modal-box h2{
+    margin-bottom:15px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:13px;
+    margin:7px 0 12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:14px;
+}
+
+textarea{
+    min-height:80px;
+    resize:none;
+}
+
+.save-btn{
+    width:100%;
+    background:#2563eb;
+    color:white;
+    padding:14px;
+    border-radius:10px;
+    font-weight:bold;
+    font-size:15px;
+}
+
+.close-btn{
+    width:100%;
+    background:#eee;
+    padding:12px;
+    border-radius:10px;
+    margin-top:8px;
+}
+
+.attendance-box{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.attendance-actions button{
+    padding:8px 10px;
+    border-radius:8px;
+    margin-left:4px;
+}
+
+.present{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.absent{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.progress{
+    height:8px;
+    background:#e5e7eb;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:10px;
+}
+
+.progress-bar{
+    height:100%;
+    background:#2563eb;
+}
+
+.big-date{
+    font-size:13px;
+    color:#666;
+}
+
+@media(min-width:600px){
+    .stats{
+        grid-template-columns:repeat(4,1fr);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📚 StudyMate</h1>
+    <p>Your personal college assistant</p>
+</header>
+
+<div class="container">
+
+<!-- HOME -->
+<div id="home" class="page active">
+
+    <div class="stats">
+        <div class="stat">
+            <h2 id="assignmentCount">0</h2>
+            <p>Assignments</p>
+        </div>
+
+        <div class="stat">
+            <h2 id="homeworkCount">0</h2>
+            <p>Homework</p>
+        </div>
+
+        <div class="stat">
+            <h2 id="pendingCount">0</h2>
+            <p>Pending</p>
+        </div>
+
+        <div class="stat">
+            <h2 id="attendancePercent">0%</h2>
+            <p>Attendance</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            <h2>⚠️ Upcoming</h2>
+        </div>
+
+        <div id="upcoming"></div>
+    </div>
+
+</div>
+
+
+<!-- ASSIGNMENTS -->
+<div id="assignments" class="page">
+
+    <div class="section-title">
+        <h2>📝 Assignments</h2>
+        <button class="add-btn" onclick="openModal('assignment')">+ Add</button>
+    </div>
+
+    <div id="assignmentList"></div>
+
+</div>
+
+
+<!-- HOMEWORK -->
+<div id="homework" class="page">
+
+    <div class="section-title">
+        <h2>📚 Homework</h2>
+        <button class="add-btn" onclick="openModal('homework')">+ Add</button>
+    </div>
+
+    <div id="homeworkList"></div>
+
+</div>
+
+
+<!-- ATTENDANCE -->
+<div id="attendance" class="page">
+
+    <div class="section-title">
+        <h2>🎓 Attendance</h2>
+        <button class="add-btn" onclick="openModal('attendance')">+ Add</button>
+    </div>
+
+    <div id="attendanceList"></div>
+
+</div>
+
+</div>
+
+
+<!-- NAVIGATION -->
+<nav>
+
+<button class="active" onclick="showPage('home',this)">
+<span>🏠</span>Home
+</button>
+
+<button onclick="showPage('assignments',this)">
+<span>📝</span>Assignments
+</button>
+
+<button onclick="showPage('homework',this)">
+<span>📚</span>Homework
+</button>
+
+<button onclick="showPage('attendance',this)">
+<span>🎓</span>Attendance
+</button>
+
+</nav>
+
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<h2 id="modalTitle">Add</h2>
+
+<div id="formContent"></div>
+
+<button class="save-btn" onclick="saveData()">Save</button>
+<button class="close-btn" onclick="closeModal()">Cancel</button>
+
+</div>
+</div>
+
+
+<script>
+
+let assignments =
+JSON.parse(localStorage.getItem("assignments")) || [];
+
+let homework =
+JSON.parse(localStorage.getItem("homework")) || [];
+
+let attendance =
+JSON.parse(localStorage.getItem("attendance")) || [];
+
+let currentType="";
+
+
+function saveAll(){
+
+localStorage.setItem(
+"assignments",
+JSON.stringify(assignments)
+);
+
+localStorage.setItem(
+"homework",
+JSON.stringify(homework)
+);
+
+localStorage.setItem(
+"attendance",
+JSON.stringify(attendance)
+);
+
+}
+
+
+function showPage(page,button){
+
+document.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
+
+document.getElementById(page)
+.classList.add("active");
+
+document.querySelectorAll("nav button")
+.forEach(b=>b.classList.remove("active"));
+
+button.classList.add("active");
+
+render();
+
+}
+
+
+function openModal(type){
+
+currentType=type;
+
+document.getElementById("modal")
+.classList.add("show");
+
+let title=document.getElementById("modalTitle");
+
+let form=document.getElementById("formContent");
+
+
+if(type==="assignment"){
+
+title.innerText="📝 Add Assignment";
+
+form.innerHTML=`
+
+<label>Subject</label>
+<input id="subject" placeholder="e.g. Communication Engineering">
+
+<label>Assignment Name</label>
+<input id="name" placeholder="e.g. Unit 3 Questions">
+
+<label>Given Date</label>
+<input id="givenDate" type="date">
+
+<label>Submission Date</label>
+<input id="dueDate" type="date">
+
+<label>Description</label>
+<textarea id="description"
+placeholder="Enter assignment details"></textarea>
+
+`;
+
+}
+
+
+if(type==="homework"){
+
+title.innerText="📚 Add Homework";
+
+form.innerHTML=`
+
+<label>Subject</label>
+<input id="subject" placeholder="e.g. Mathematics">
+
+<label>Homework</label>
+<textarea id="name"
+placeholder="What homework did teacher give?"></textarea>
+
+<label>Due Date</label>
+<input id="dueDate" type="date">
+
+`;
+
+}
+
+
+if(type==="attendance"){
+
+title.innerText="🎓 Add Lecture";
+
+form.innerHTML=`
+
+<label>Subject</label>
+<input id="subject" placeholder="e.g. Digital Electronics">
+
+<label>Lecture Date</label>
+<input id="lectureDate" type="date">
+
+`;
+
+}
+
+}
+
+
+function closeModal(){
+
+document.getElementById("modal")
+.classList.remove("show");
+
+}
+
+
+function saveData(){
+
+let subject=document.getElementById("subject").value;
+
+if(!subject){
+
+alert("Please enter subject");
+
+return;
+
+}
+
+
+if(currentType==="assignment"){
+
+let name=document.getElementById("name").value;
+
+let dueDate=document.getElementById("dueDate").value;
+
+if(!name || !dueDate){
+
+alert("Please fill required fields");
+
+return;
+
+}
+
+assignments.push({
+
+id:Date.now(),
+
+subject:subject,
+
+name:name,
+
+givenDate:document.getElementById("givenDate").value,
+
+dueDate:dueDate,
+
+description:document.getElementById("description").value,
+
+completed:false
+
+});
+
+}
+
+
+if(currentType==="homework"){
+
+let name=document.getElementById("name").value;
+
+let dueDate=document.getElementById("dueDate").value;
+
+if(!name || !dueDate){
+
+alert("Please fill required fields");
+
+return;
+
+}
+
+homework.push({
+
+id:Date.now(),
+
+subject:subject,
+
+name:name,
+
+dueDate:dueDate,
+
+completed:false
+
+});
+
+}
+
+
+if(currentType==="attendance"){
+
+let lectureDate=document.getElementById("lectureDate").value;
+
+attendance.push({
+
+id:Date.now(),
+
+subject:subject,
+
+date:lectureDate,
+
+status:"present"
+
+});
+
+}
+
+
+saveAll();
+
+closeModal();
+
+render();
+
+}
+
+
+function toggleAssignment(id){
+
+let item=assignments.find(x=>x.id===id);
+
+item.completed=!item.completed;
+
+saveAll();
+
+render();
+
+}
+
+
+function toggleHomework(id){
+
+let item=homework.find(x=>x.id===id);
+
+item.completed=!item.completed;
+
+saveAll();
+
+render();
+
+}
+
+
+function deleteAssignment(id){
+
+assignments=
+assignments.filter(x=>x.id!==id);
+
+saveAll();
+
+render();
+
+}
+
+
+function deleteHomework(id){
+
+homework=
+homework.filter(x=>x.id!==id);
+
+saveAll();
+
+render();
+
+}
+
+
+function deleteAttendance(id){
+
+attendance=
+attendance.filter(x=>x.id!==id);
+
+saveAll();
+
+render();
+
+}
+
+
+function changeAttendance(id,status){
+
+let item=attendance.find(x=>x.id===id);
+
+item.status=status;
+
+saveAll();
+
+render();
+
+}
+
+
+function formatDate(date){
+
+if(!date)return "No date";
+
+return new Date(date+"T00:00:00")
+.toLocaleDateString("en-IN",{
+day:"numeric",
+month:"short",
+year:"numeric"
+});
+
+}
+
+
+function renderAssignments(){
+
+let list=document.getElementById("assignmentList");
+
+if(assignments.length===0){
+
+list.innerHTML=
+`<div class="empty">
+No assignments yet.<br>
+Tap <b>+ Add</b> to record one.
+</div>`;
+
+return;
+
+}
+
+list.innerHTML=
+assignments
+.sort((a,b)=>a.dueDate.localeCompare(b.dueDate))
+.map(a=>`
+
+<div class="card">
+
+<button class="delete"
+onclick="deleteAssignment(${a.id})">
+🗑
+</button>
+
+<h3>${escapeHTML(a.name)}</h3>
+
+<p>📘 ${escapeHTML(a.subject)}</p>
+
+<p>📅 Due: ${formatDate(a.dueDate)}</p>
+
+${a.description?
+`<p>📌 ${escapeHTML(a.description)}</p>`:""}
+
+<span
+class="badge ${a.completed?'completed':'pending'}">
+${a.completed?'✓ Completed':'⏳ Pending'}
+</span>
+
+<br><br>
+
+<button class="add-btn"
+onclick="toggleAssignment(${a.id})">
+${a.completed?'Mark Pending':'Mark Completed'}
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+function renderHomework(){
+
+let list=document.getElementById("homeworkList");
+
+if(homework.length===0){
+
+list.innerHTML=
+`<div class="empty">
+No homework recorded yet.
+</div>`;
+
+return;
+
+}
+
+list.innerHTML=
+homework
+.sort((a,b)=>a.dueDate.localeCompare(b.dueDate))
+.map(h=>`
+
+<div class="card">
+
+<button class="delete"
+onclick="deleteHomework(${h.id})">
+🗑
+</button>
+
+<h3>${escapeHTML(h.name)}</h3>
+
+<p>📘 ${escapeHTML(h.subject)}</p>
+
+<p>📅 Due: ${formatDate(h.dueDate)}</p>
+
+<span class="badge ${h.completed?'completed':'pending'}">
+${h.completed?'✓ Completed':'⏳ Pending'}
+</span>
+
+<br><br>
+
+<button class="add-btn"
+onclick="toggleHomework(${h.id})">
+${h.completed?'Mark Pending':'Mark Completed'}
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+function renderAttendance(){
+
+let list=document.getElementById("attendanceList");
+
+if(attendance.length===0){
+
+list.innerHTML=
+`<div class="empty">
+No lectures recorded yet.
+</div>`;
+
+return;
+
+}
+
+list.innerHTML=
+attendance
+.sort((a,b)=>b.date.localeCompare(a.date))
+.map(a=>`
+
+<div class="card">
+
+<button class="delete"
+onclick="deleteAttendance(${a.id})">
+🗑
+</button>
+
+<div class="attendance-box">
+
+<div>
+
+<h3>${escapeHTML(a.subject)}</h3>
+
+<p>📅 ${formatDate(a.date)}</p>
+
+</div>
+
+<div class="attendance-actions">
+
+<button class="present"
+onclick="changeAttendance(${a.id},'present')">
+✓
+</button>
+
+<button class="absent"
+onclick="changeAttendance(${a.id},'absent')">
+✕
+</button>
+
+</div>
+
+</div>
+
+<p>
+Status:
+<b>${a.status==="present"?
+"Present":"Absent"}</b>
+</p>
+
+</div>
+
+`).join("");
+
+}
+
+
+function renderStats(){
+
+let total=attendance.length;
+
+let present=attendance
+.filter(a=>a.status==="present")
+.length;
+
+let percentage=
+total===0?0:Math.round((present/total)*100);
+
+document.getElementById("assignmentCount")
+.innerText=assignments.length;
+
+document.getElementById("homeworkCount")
+.innerText=homework.length;
+
+let pending=
+assignments.filter(a=>!a.completed).length+
+homework.filter(a=>!a.completed).length;
+
+document.getElementById("pendingCount")
+.innerText=pending;
+
+document.getElementById("attendancePercent")
+.innerText=percentage+"%";
+
+}
+
+
+function renderUpcoming(){
+
+let box=document.getElementById("upcoming");
+
+let items=[
+
+...assignments
+.filter(a=>!a.completed)
+.map(a=>({
+name:a.name,
+subject:a.subject,
+date:a.dueDate,
+type:"Assignment"
+})),
+
+...homework
+.filter(a=>!a.completed)
+.map(h=>({
+name:h.name,
+subject:h.subject,
+date:h.dueDate,
+type:"Homework"
+}))
+
+];
+
+items.sort((a,b)=>
+a.date.localeCompare(b.date)
+);
+
+items=items.slice(0,5);
+
+if(items.length===0){
+
+box.innerHTML=
+`<div class="empty">
+🎉 No pending work!
+</div>`;
+
+return;
+
+}
+
+box.innerHTML=
+items.map(i=>`
+
+<div class="card">
+
+<h3>${escapeHTML(i.name)}</h3>
+
+<p>📘 ${escapeHTML(i.subject)}</p>
+
+<p>📅 ${formatDate(i.date)}</p>
+
+<span class="badge pending">
+${i.type}
+</span>
+
+</div>
+
+`).join("");
+
+}
+
+
+function escapeHTML(text){
+
+return String(text||"")
+.replace(/[&<>"']/g,function(m){
+
+return {
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+}[m];
+
+});
+
+}
+
+
+function render(){
+
+renderAssignments();
+
+renderHomework();
+
+renderAttendance();
+
+renderStats();
+
+renderUpcoming();
+
+}
+
+
+render();
+
+</script>
+
+</body>
+  </html>
