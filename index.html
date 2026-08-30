@@ -742,6 +742,13 @@ let attendance =
 let calendarDate = new Date();
 
 
+let calendarEvents =
+    JSON.parse(
+        localStorage.getItem("studymate_calendar_events")
+    ) || [];
+
+let selectedCalendarDate = today();
+
 /* =========================
    DEFAULT TIMETABLE
 ========================= */
@@ -3075,17 +3082,20 @@ function renderCalendar(){
 
 function showCalendarEvents(date){
 
+    selectedCalendarDate = date;
+
     let box =
         document.getElementById(
             "calendarEvents"
         );
-
 
     if(!box) return;
 
 
     let events = [];
 
+
+    /* ASSIGNMENTS */
 
     assignments
     .filter(
@@ -3095,16 +3105,20 @@ function showCalendarEvents(date){
 
         events.push({
 
-            type:"📝 Assignment",
+            type: "📝 Assignment",
 
-            name:a.name,
+            name: a.name,
 
-            subject:a.subject
+            subject: a.subject,
+
+            fixed: true
 
         });
 
     });
 
+
+    /* HOMEWORK */
 
     homework
     .filter(
@@ -3114,16 +3128,20 @@ function showCalendarEvents(date){
 
         events.push({
 
-            type:"📚 Homework",
+            type: "📚 Homework",
 
-            name:h.name,
+            name: h.name,
 
-            subject:h.subject
+            subject: h.subject,
+
+            fixed: true
 
         });
 
     });
 
+
+    /* ATTENDANCE */
 
     attendance
     .filter(
@@ -3133,14 +3151,42 @@ function showCalendarEvents(date){
 
         events.push({
 
-            type:"🎓 Lecture",
+            type: "🎓 Lecture",
 
-            name:a.subject,
+            name: a.subject,
 
             subject:
                 a.status === "present"
                 ? "Present"
-                : "Absent"
+                : "Absent",
+
+            fixed: true
+
+        });
+
+    });
+
+
+    /* PERSONAL CALENDAR EVENTS */
+
+    calendarEvents
+    .filter(
+        e => e.date === date
+    )
+    .forEach(e => {
+
+        events.push({
+
+            id: e.id,
+
+            type: "📌 My Event",
+
+            name: e.title,
+
+            subject:
+                e.description || "",
+
+            fixed: false
 
         });
 
@@ -3149,11 +3195,25 @@ function showCalendarEvents(date){
 
     if(events.length === 0){
 
-        box.innerHTML =
-            `<div class="empty">
-                No events on
-                ${formatDate(date)}.
-            </div>`;
+        box.innerHTML = `
+
+            <p class="small">
+                ${formatDate(date)}
+            </p>
+
+            <div class="empty">
+
+                No events on this date.
+
+                <br><br>
+
+                Click
+                <b>➕ Add Event</b>
+                to add one.
+
+            </div>
+
+        `;
 
         return;
 
@@ -3161,9 +3221,18 @@ function showCalendarEvents(date){
 
 
     box.innerHTML =
+
+        `<p class="small"
+            style="margin-bottom:10px">
+            ${formatDate(date)}
+        </p>`
+
+        +
+
         events.map(e => `
 
-            <div class="card">
+            <div class="card"
+                 style="margin-bottom:10px;">
 
                 <h3>
                     ${e.type}
@@ -3173,15 +3242,45 @@ function showCalendarEvents(date){
                     📌 ${escapeHTML(e.name)}
                 </p>
 
-                <p>
-                    ℹ️ ${escapeHTML(e.subject)}
-                </p>
+                ${
+                    e.subject
+                    ?
+                    `
+                    <p>
+                        ℹ️ ${escapeHTML(e.subject)}
+                    </p>
+                    `
+                    :
+                    ""
+                }
+
+                ${
+                    !e.fixed
+                    ?
+                    `
+                    <button
+                        class="danger"
+                        onclick="
+                            deleteCalendarEvent(
+                                ${e.id}
+                            )
+                        "
+                    >
+                        🗑 Delete
+                    </button>
+                    `
+                    :
+                    ""
+                }
 
             </div>
 
         `).join("");
 
-    }
+}
+
+
+            
     /* =========================
    DASHBOARD
 ========================= */
@@ -3629,7 +3728,152 @@ function renderHomeDate(){
         );
 
 }
+    
+/* =========================
+   MY CALENDAR EVENTS
+========================= */
 
+function openCalendarEventForm(){
+
+    if(!selectedCalendarDate){
+
+        alert("Please select a date first.");
+
+        return;
+
+    }
+
+    document.getElementById(
+        "calendarEventForm"
+    ).style.display = "block";
+
+}
+
+
+function closeCalendarEventForm(){
+
+    document.getElementById(
+        "calendarEventForm"
+    ).style.display = "none";
+
+}
+
+
+function saveCalendarEvent(){
+
+    let title =
+        document.getElementById(
+            "calendarEventTitle"
+        ).value.trim();
+
+
+    let description =
+        document.getElementById(
+            "calendarEventDescription"
+        ).value.trim();
+
+
+    if(!title){
+
+        alert(
+            "Please enter an event title."
+        );
+
+        return;
+
+    }
+
+
+    calendarEvents.push({
+
+        id: Date.now(),
+
+        date: selectedCalendarDate,
+
+        title: title,
+
+        description: description
+
+    });
+
+
+    localStorage.setItem(
+
+        "studymate_calendar_events",
+
+        JSON.stringify(
+            calendarEvents
+        )
+
+    );
+
+
+    document.getElementById(
+        "calendarEventTitle"
+    ).value = "";
+
+
+    document.getElementById(
+        "calendarEventDescription"
+    ).value = "";
+
+
+    closeCalendarEventForm();
+
+
+    renderCalendar();
+
+
+    showCalendarEvents(
+        selectedCalendarDate
+    );
+
+
+    alert(
+        "✅ Event added successfully!"
+    );
+
+}
+
+
+function deleteCalendarEvent(id){
+
+    if(
+        !confirm(
+            "Delete this event?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    calendarEvents =
+        calendarEvents.filter(
+            e => e.id !== id
+        );
+
+
+    localStorage.setItem(
+
+        "studymate_calendar_events",
+
+        JSON.stringify(
+            calendarEvents
+        )
+
+    );
+
+
+    renderCalendar();
+
+
+    showCalendarEvents(
+        selectedCalendarDate
+    );
+
+}
 
 /* =========================
    NOTIFICATIONS
