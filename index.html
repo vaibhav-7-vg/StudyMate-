@@ -696,6 +696,16 @@ label{
         </button>
 
     </div>
+    <div class="card">
+
+    <h2>🎓 Attendance</h2>
+
+    <button class="danger"
+            onclick="clearAttendanceOnly()">
+        🎓 Clear Attendance Only
+    </button>
+
+    </div>
 
     <div class="card">
 
@@ -4260,7 +4270,31 @@ function restoreData(){
     );
 
 }
+/* =========================
+   CLEAR ATTENDANCE ONLY
+========================= */
 
+function clearAttendanceOnly(){
+
+    if(!confirm(
+        "Clear ONLY attendance data? Assignments, homework, calendar events and other data will remain."
+    )){
+        return;
+    }
+
+    attendance = [];
+
+    localStorage.setItem(
+        "studymate_attendance",
+        JSON.stringify(attendance)
+    );
+
+    render();
+
+    alert(
+        "🎓 Attendance data cleared successfully!"
+    );
+                        }
 
 /* =========================
    RESET
