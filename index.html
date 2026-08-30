@@ -528,6 +528,11 @@ label{
     <h2>🤖 Smart Attendance Advisor</h2>
     <div id="smartAttendanceAdvisor"></div>
     </div>
+    
+    <div class="card">
+    <h2>🧠 ML Attendance Prediction</h2>
+    <div id="mlAttendancePrediction"></div>
+    </div>
 
     <div class="card">
         <h2>📋 Attendance History</h2>
@@ -2116,6 +2121,8 @@ function markAttendance(
     
     renderSmartAttendanceAdvisor();
 
+    renderMLAttendancePrediction();
+
     renderAttendanceHistory();
 
     renderStats();
@@ -2593,6 +2600,174 @@ function renderSmartAttendanceAdvisor(){
     box.innerHTML =
         html;
                 }
+    /* =========================
+   ML ATTENDANCE PREDICTION
+========================= */
+
+function renderMLAttendancePrediction(){
+
+    const box =
+        document.getElementById(
+            "mlAttendancePrediction"
+        );
+
+    if(!box) return;
+
+    const subjects = [
+        ...new Set(
+            attendance.map(
+                a => a.subject
+            )
+        )
+    ];
+
+    if(subjects.length === 0){
+
+        box.innerHTML = `
+            <div class="empty">
+                🧠 No attendance data available yet.
+            </div>
+        `;
+
+        return;
+    }
+
+    let html = "";
+
+    subjects.forEach(subject => {
+
+        const records =
+            attendance
+                .filter(
+                    a => a.subject === subject
+                )
+                .sort(
+                    (a,b) =>
+                    new Date(a.date) -
+                    new Date(b.date)
+                );
+
+        /*
+         * We need historical data to
+         * make a meaningful prediction.
+         */
+        if(records.length < 10){
+
+            html += `
+                <div style="
+                    margin:10px 0;
+                    padding:12px;
+                    border-radius:10px;
+                    background:#f3f4f6;
+                ">
+                    🧠 <b>${escapeHTML(subject)}</b>
+                    <br>
+                    <span>
+                        Not enough attendance history
+                        for ML prediction yet.
+                    </span>
+                    <br>
+                    <small>
+                        Need at least 10 recorded lectures.
+                    </small>
+                </div>
+            `;
+
+            return;
+        }
+
+        /*
+         * Recent attendance trend
+         */
+        const recent =
+            records.slice(-5);
+
+        const recentPresent =
+            recent.filter(
+                a => a.status === "present"
+            ).length;
+
+        const recentRate =
+            recentPresent /
+            recent.length;
+
+        /*
+         * Overall attendance
+         */
+        const present =
+            records.filter(
+                a => a.status === "present"
+            ).length;
+
+        const overallRate =
+            present /
+            records.length;
+
+        /*
+         * Simple ML-style risk score
+         * based on historical features.
+         *
+         * This is the first stage.
+         * Later we can replace this
+         * with a trained model.
+         */
+        const riskScore =
+            (overallRate * 0.6) +
+            (recentRate * 0.4);
+
+        let risk;
+        let message;
+
+        if(riskScore >= 0.75){
+
+            risk = "LOW RISK 🟢";
+
+            message =
+                "Attendance pattern looks stable.";
+
+        }else if(riskScore >= 0.65){
+
+            risk = "MEDIUM RISK 🟡";
+
+            message =
+                "Try to attend upcoming lectures.";
+
+        }else{
+
+            risk = "HIGH RISK 🔴";
+
+            message =
+                "Prioritize this subject.";
+
+        }
+
+        html += `
+            <div style="
+                margin:10px 0;
+                padding:12px;
+                border-radius:10px;
+                background:#f3f4f6;
+            ">
+                🧠 <b>${escapeHTML(subject)}</b>
+                <br>
+                Risk: <b>${risk}</b>
+                <br>
+                Current attendance:
+                ${Math.round(overallRate * 100)}%
+                <br>
+                Recent trend:
+                ${Math.round(recentRate * 100)}%
+                <br>
+                <span>
+                    ${message}
+                </span>
+            </div>
+        `;
+
+    });
+
+    box.innerHTML = html;
+                        }
 
 /* =========================
    ATTENDANCE HISTORY
@@ -4529,6 +4704,8 @@ function render(){
     renderSubjectAttendance();
     
     renderSmartAttendanceAdvisor();
+
+    renderMLAttendancePrediction();
 
     renderAttendanceHistory();
 
