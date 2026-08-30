@@ -268,6 +268,65 @@ label{
         grid-template-columns:1fr 1fr;
     }
 }
+    /* =========================
+   CALENDAR FIX
+========================= */
+
+.calendar {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.calendar-header button {
+    padding: 8px 12px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    width: 100%;
+}
+
+.calendar-grid > div {
+    min-height: 55px;
+    padding: 10px 5px;
+    border-radius: 8px;
+    background: #f1f5f9;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.calendar-grid > div:hover {
+    transform: scale(1.02);
+}
+
+.calendar-grid > div:first-child,
+.calendar-grid > div:nth-child(2),
+.calendar-grid > div:nth-child(3),
+.calendar-grid > div:nth-child(4),
+.calendar-grid > div:nth-child(5),
+.calendar-grid > div:nth-child(6),
+.calendar-grid > div:nth-child(7) {
+    min-height: auto;
+    background: transparent;
+    font-weight: bold;
+    cursor: default;
+}
 </style>
 </head>
 
