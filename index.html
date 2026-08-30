@@ -2142,9 +2142,75 @@ function renderAttendanceSummary(){
         : Math.round(
             present / total * 100
         );
+let warningMessage = "";
 
+if(total === 0){
+
+    warningMessage = `
+        <div style="
+            margin:12px 0;
+            padding:14px;
+            border-radius:12px;
+            background:#eef2f7;
+            text-align:center;
+            font-weight:bold;
+        ">
+            📊 No attendance recorded yet.
+        </div>
+    `;
+
+}else if(percentage >= 75){
+
+    warningMessage = `
+        <div style="
+            margin:12px 0;
+            padding:14px;
+            border-radius:12px;
+            background:#d1fae5;
+            text-align:center;
+            font-weight:bold;
+        ">
+            🟢 Attendance is good — ${percentage}%
+        </div>
+    `;
+
+}else if(percentage >= 65){
+
+    warningMessage = `
+        <div style="
+            margin:12px 0;
+            padding:14px;
+            border-radius:12px;
+            background:#fef3c7;
+            text-align:center;
+            font-weight:bold;
+        ">
+            🟡 Attendance Warning — ${percentage}%
+            <br>
+            Try to attend upcoming lectures.
+        </div>
+    `;
+
+}else{
+
+    warningMessage = `
+        <div style="
+            margin:12px 0;
+            padding:14px;
+            border-radius:12px;
+            background:#fee2e2;
+            text-align:center;
+            font-weight:bold;
+        ">
+            🔴 Critical Attendance — ${percentage}%
+            <br>
+            Your attendance is below 65%.
+        </div>
+    `;
+    }
 
     box.innerHTML = `
+    ${warningMessage}
 
         <div style="
             overflow-x:auto;
