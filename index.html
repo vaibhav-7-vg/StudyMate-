@@ -4552,7 +4552,32 @@ setInterval(
     checkNotifications,
     60000
 );    
+// Register StudyMate PWA service worker
+if ("serviceWorker" in navigator) {
 
+    window.addEventListener("load", function() {
+
+        navigator.serviceWorker
+            .register("./sw.js")
+            .then(function() {
+
+                console.log(
+                    "StudyMate PWA service worker registered"
+                );
+
+            })
+            .catch(function(error) {
+
+                console.log(
+                    "PWA service worker registration failed:",
+                    error
+                );
+
+            });
+
+    });
+
+}
 </script>
 
 </body>
