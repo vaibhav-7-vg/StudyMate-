@@ -522,6 +522,10 @@ label{
         <h2>📚 Subject-wise Attendance</h2>
         <div id="subjectAttendance"></div>
     </div>
+    <div class="card">
+    <h2>🤖 Smart Attendance Advisor</h2>
+    <div id="smartAttendanceAdvisor"></div>
+    </div>
 
     <div class="card">
         <h2>📋 Attendance History</h2>
@@ -2107,6 +2111,8 @@ function markAttendance(
     renderAttendanceSummary();
 
     renderSubjectAttendance();
+    
+    renderSmartAttendanceAdvisor();
 
     renderAttendanceHistory();
 
@@ -2479,7 +2485,112 @@ function renderSubjectAttendance(){
         html;
 
 }
+    
+/* =========================
+   SMART ATTENDANCE ADVISOR
+========================= */
 
+function renderSmartAttendanceAdvisor(){
+
+    let box =
+        document.getElementById(
+            "smartAttendanceAdvisor"
+        );
+
+    if(!box) return;
+
+    let subjects = [
+        ...new Set(
+            attendance.map(
+                a => a.subject
+            )
+        )
+    ];
+
+    if(subjects.length === 0){
+
+        box.innerHTML =
+            `<div class="empty">
+                No attendance data yet.
+            </div>`;
+
+        return;
+    }
+
+    let html = "";
+
+    subjects.forEach(subject => {
+
+        let records =
+            attendance.filter(
+                a => a.subject === subject
+            );
+
+        let total =
+            records.length;
+
+        let present =
+            records.filter(
+                a =>
+                a.status === "present"
+            ).length;
+
+        let percentage =
+            total === 0
+            ? 0
+            : Math.round(
+                present / total * 100
+            );
+
+        if(percentage >= 75){
+
+            html += `
+                <div style="
+                    margin:10px 0;
+                    padding:12px;
+                    border-radius:10px;
+                    background:#d1fae5;
+                    font-weight:bold;
+                ">
+                    🟢 ${escapeHTML(subject)} — ${percentage}%
+                    <br>
+                    <span style="font-weight:normal">
+                        Attendance is safe.
+                    </span>
+                </div>
+            `;
+
+        }else{
+
+            let lecturesNeeded =
+                Math.ceil(
+                    (0.75 * total - present) / 0.25
+                );
+
+            html += `
+                <div style="
+                    margin:10px 0;
+                    padding:12px;
+                    border-radius:10px;
+                    background:#fee2e2;
+                    font-weight:bold;
+                ">
+                    🔴 ${escapeHTML(subject)} — ${percentage}%
+                    <br>
+                    <span style="font-weight:normal">
+                        Attend the next ${lecturesNeeded}
+                        ${escapeHTML(subject)}
+                        lectures to reach 75%.
+                    </span>
+                </div>
+            `;
+        }
+
+    });
+
+    box.innerHTML =
+        html;
+                }
 
 /* =========================
    ATTENDANCE HISTORY
@@ -4414,6 +4525,8 @@ function render(){
     renderAttendanceSummary();
 
     renderSubjectAttendance();
+    
+    renderSmartAttendanceAdvisor();
 
     renderAttendanceHistory();
 
