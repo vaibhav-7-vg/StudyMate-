@@ -2605,14 +2605,13 @@ function renderSmartAttendanceAdvisor(){
 ========================= */
 
 function renderMLAttendancePrediction(){
-
+alert("ML FUNCTION RUNNING");
     const box =
         document.getElementById(
             "mlAttendancePrediction"
         );
-    box.innerHTML = "🧠 ML Prediction Connected!";
-
     if(!box) return;
+    box.innerHTML = "🧠 ML Prediction Connected!";
 
     const subjects = [
         ...new Set(
