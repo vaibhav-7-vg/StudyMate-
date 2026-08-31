@@ -115,6 +115,19 @@ main{
     color:#2563eb;
 }
 
+    .stat-icon{
+    font-size:28px;
+    margin-bottom:6px;
+}
+
+.stat{
+    transition:transform .2s, box-shadow .2s;
+}
+
+.stat:hover{
+    transform:translateY(-3px);
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+}
 .stat span{
     font-size:13px;
     color:#64748b;
@@ -352,32 +365,40 @@ label{
 
 <section id="home" class="page active">
 
-    <div class="card">
+    <div class="card welcome-card">
+    <div>
         <h2>👋 Welcome to StudyMate</h2>
         <p id="homeDate"></p>
+    </div>
+
+    <div class="welcome-icon">🎓</div>
     </div>
 
     <div class="stats">
 
         <div class="stat">
-            <strong id="assignmentCount">0</strong>
-            <span>Assignments</span>
-        </div>
+    <div class="stat-icon">📝</div>
+    <strong id="assignmentCount">0</strong>
+    <span>Assignments</span>
+</div>
 
-        <div class="stat">
-            <strong id="homeworkCount">0</strong>
-            <span>Homework</span>
-        </div>
+<div class="stat">
+    <div class="stat-icon">📚</div>
+    <strong id="homeworkCount">0</strong>
+    <span>Homework</span>
+</div>
 
-        <div class="stat">
-            <strong id="pendingCount">0</strong>
-            <span>Pending Work</span>
-        </div>
+<div class="stat">
+    <div class="stat-icon">⏳</div>
+    <strong id="pendingCount">0</strong>
+    <span>Pending Work</span>
+</div>
 
-        <div class="stat">
-            <strong id="attendancePercent">0%</strong>
-            <span>Attendance</span>
-        </div>
+<div class="stat">
+    <div class="stat-icon">🎓</div>
+    <strong id="attendancePercent">0%</strong>
+    <span>Attendance</span>
+</div>
 
     </div>
 
